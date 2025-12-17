@@ -15,7 +15,7 @@ You can install the development version of eatAutoCode from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("franikowsp/eatAutoCode")
+devtools::install_github("iqb-research/eatAutoCode")
 ```
 
 ## Update
