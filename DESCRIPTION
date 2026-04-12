@@ -1,7 +1,7 @@
 Package: eatAutoCode
 Type: Package
 Title: Automatically Code Technology Based Assessment (TBA) Data
-Version: 0.5.0.9000
+Version: 0.5.0.9001
 Authors@R: 
     person("Philipp", "Franikowski", , "philipp.franikowski@iqb.hu-berlin.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2109-7388"))
 Description: 
