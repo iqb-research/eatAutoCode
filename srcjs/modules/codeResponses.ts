@@ -44,14 +44,8 @@ export function codeResponses(params: {
 
   let responsesToCode: UnitResponses[] = deparseJSON(responses);
   const manualToInsert: ManualCodes[] | null = manual && deparseJSON(manual);
-  const geometryVariablesToInsert: GeometryVariablesCodes[] | null = geometry_variables && deparseJSON(geometry_variables);
-
-  if (manualToInsert !== null) {
-    responsesToCode = insertManual({
-      responses: responsesToCode,
-      manual: manualToInsert,
-    });
-  }
+  const geometryVariablesToInsert: GeometryVariablesCodes[] | null =
+    geometry_variables && deparseJSON(geometry_variables);
 
   if (geometryVariablesToInsert !== null) {
     responsesToCode = insertGeometryVariables({
@@ -59,6 +53,14 @@ export function codeResponses(params: {
       geometry_variables: geometryVariablesToInsert,
     });
   }
+
+    if (manualToInsert !== null) {
+    responsesToCode = insertManual({
+      responses: responsesToCode,
+      manual: manualToInsert,
+    });
+  }
+
 
 
   // Create CodingSchemeFactory instance and code responses
@@ -87,12 +89,24 @@ export function codeResponsesArray(params: {
   const coded = responsesToCode.map((resp) => {
     let responses: UnitResponses[] = deparseJSON(resp.responses);
 
-    const manualToInsert: ManualCodes[] | null =
-      resp?.manual && deparseJSON(resp.manual);
-
     const geometryVariablesToInsert: GeometryVariablesCodes[] | null =
       resp?.geometry_variables && deparseJSON(resp.geometry_variables);
 
+    const manualToInsert: ManualCodes[] | null =
+      resp?.manual && deparseJSON(resp.manual);
+
+    if (
+      geometryVariablesToInsert !== null &&
+      geometryVariablesToInsert !== undefined
+    ) {
+      responses = insertGeometryVariables({
+        responses: responses,
+        geometry_variables: geometryVariablesToInsert,
+      });
+
+      // Delete manual entry as it is not necessary anymore
+      delete resp.geometry_variables;
+    }
 
     if (manualToInsert !== null && manualToInsert !== undefined) {
       responses = insertManual({
@@ -103,17 +117,6 @@ export function codeResponsesArray(params: {
       // Delete manual entry as it is not necessary anymore
       delete resp.manual;
     }
-
-    if (geometryVariablesToInsert !== null && geometryVariablesToInsert !== undefined) {
-      responses = insertGeometryVariables({
-        responses: responses,
-        geometry_variables: geometryVariablesToInsert,
-      });
-
-      // Delete manual entry as it is not necessary anymore
-      delete resp.geometry_variables;
-    }
-
 
     resp.responses = CodingSchemeFactory.code(responses, variableCodings).map(
       (coded) => {
@@ -126,7 +129,7 @@ export function codeResponsesArray(params: {
         });
 
         return coded;
-      }
+      },
     );
 
     return resp;

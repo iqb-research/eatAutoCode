@@ -26,12 +26,14 @@ export default function insertGeometryVariables(params: {
 
   // Update `responses` using the lookup object
   const updatedObj = responses.map((item) =>
-    geometryVariablesMap[item.id] ? { ...item, ...geometryVariablesMap[item.id] } : item
+    geometryVariablesMap[item.id]
+      ? { ...item, ...geometryVariablesMap[item.id] }
+      : item,
   );
 
   // Add new items from `ggb` not in `responses`
   const newItems = geometry_variables.filter(
-    (item) => !responses.some((o) => o.id === item.id)
+    (item) => !responses.some((o) => o.id === item.id),
   );
 
   return [...updatedObj, ...newItems];
