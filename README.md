@@ -9,6 +9,12 @@
 
 The goal of eatAutoCode is to code responses from IQB Testcenter.
 
+## Package governance
+
+This package was originally authored and created by Philipp Franikowski.
+**Current package maintenance** is provided by Karoline A. Sachse,
+Kristoph Schumann, and Jakob Schaefer.
+
 ## Installation
 
 You can install the development version of eatAutoCode from
