@@ -12,7 +12,7 @@ Maintainer: Karoline A. Sachse <karoline.sachse@iqb.hu-berlin.de>
 Description: 
     Provides wrapper functions to interact with the auto-coder API of the IQB. 
     Uses response data from competence tests administered with the IQB Testcenter and coding schemes from the IQB Studio.
-License: MIT + file LICENSE
+License: file LICENSE
 URL: https://iqb-research.github.io/eatAutoCode/
 Encoding: UTF-8
 LazyData: true
