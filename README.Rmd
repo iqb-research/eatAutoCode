@@ -13,12 +13,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-# eatAutoCode
+# eatAutoCode <img src="man/figures/logo.png" align="right" height="139" alt="eatAutoCode logo" />
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 The goal of eatAutoCode is to code responses from IQB Testcenter.
+
+## Package governance
+
+This package was originally authored and created by Philipp Franikowski. **Current package maintenance** is provided by Karoline A. Sachse, Kristoph Schumann, and Jakob Schaefer.
 
 ## Installation
 
@@ -26,7 +30,7 @@ You can install the development version of eatAutoCode from [GitHub](https://git
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("franikowsp/eatAutoCode")
+devtools::install_github("iqb-research/eatAutoCode")
 ```
 
 ## Update

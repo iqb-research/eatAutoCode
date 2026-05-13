@@ -1,0 +1,58 @@
+# eatAutoCode
+
+The goal of eatAutoCode is to code responses from IQB Testcenter.
+
+## Package governance
+
+This package was originally authored and created by Philipp Franikowski.
+**Current package maintenance** is provided by Karoline A. Sachse,
+Kristoph Schumann, and Jakob Schaefer.
+
+## Installation
+
+You can install the development version of eatAutoCode from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("iqb-research/eatAutoCode")
+```
+
+## Update
+
+If you cloned the repository and want to update the version of the auto
+coder, follow this guide.
+
+First, all packages need to be installed:
+
+``` r
+packer::npm_install()
+```
+
+Second, the auto coder needs to be updated:
+
+``` r
+packer::npm_install("@iqb/responses")
+```
+
+That’s it. To be sure that everything still works, please load the
+package (`devtools::load_all(".")`) and run all of the tests
+([`devtools::test()`](https://devtools.r-lib.org/reference/test.html))
+before pulling.
+
+# Package index
+
+## Coding responses
+
+- [`code_responses()`](https://iqb-research.github.io/eatAutoCode/reference/code_responses.md)
+  : Automatically code responses with coding scheme
+- [`code_responses_array()`](https://iqb-research.github.io/eatAutoCode/reference/code_responses_array.md)
+  : Automatically code responses with coding scheme
+
+## Coding scheme helpers
+
+- [`get_dependency_tree()`](https://iqb-research.github.io/eatAutoCode/reference/get_dependency_tree.md)
+  : Displays the variable dependency tree of a given coding scheme
+- [`extract_variable_location()`](https://iqb-research.github.io/eatAutoCode/reference/extract_variable_location.md)
+  : Extract variable locations from unit definition
+

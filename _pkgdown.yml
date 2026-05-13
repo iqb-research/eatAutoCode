@@ -1,0 +1,22 @@
+url: https://iqb-research.github.io/eatAutoCode/
+
+template:
+  bootstrap: 5
+
+home:
+  title: Automatically Code Technology Based Assessment Data
+
+navbar:
+  structure:
+    left: [reference]
+    right: [github]
+
+reference:
+  - title: Coding responses
+    contents:
+      - code_responses
+      - code_responses_array
+  - title: Coding scheme helpers
+    contents:
+      - get_dependency_tree
+      - extract_variable_location
