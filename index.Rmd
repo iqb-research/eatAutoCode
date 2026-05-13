@@ -17,6 +17,8 @@ knitr::opts_chunk$set(
 
 # Welcome {-}
 
+<img src="logos/eatAutoCode.png" class="package-logo" alt="eatAutoCode logo" />
+
 `eatAutoCode` provides R wrapper functions for the IQB auto-coder API. It combines response data from IQB Testcenter with coding schemes from IQB Studio and returns tabular coding results that can be inspected, joined, or exported in an R workflow.
 
 The package is useful when you want to:
@@ -48,4 +50,3 @@ Most functions accept list objects parsed from JSON or JSON strings directly. In
 - unit definitions when variable locations should be extracted.
 
 Where possible, keep the raw JSON exports unchanged until they are parsed or passed into `eatAutoCode`. That makes the workflow easier to audit and repeat.
-

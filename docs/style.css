@@ -2,6 +2,12 @@ body {
   font-size: 16px;
 }
 
+.package-logo {
+  float: right;
+  height: 139px;
+  margin: 0 0 1rem 1.5rem;
+}
+
 .book .book-summary {
   background: #f7f8fa;
 }
@@ -23,3 +29,11 @@ pre {
   border-radius: 4px;
 }
 
+@media (max-width: 600px) {
+  .package-logo {
+    float: none;
+    display: block;
+    height: 110px;
+    margin: 0 0 1rem 0;
+  }
+}
