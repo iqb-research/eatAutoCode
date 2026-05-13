@@ -1,0 +1,51 @@
+--- 
+title: "eatAutoCode"
+author: "IQB"
+site: bookdown::bookdown_site
+documentclass: book
+description: "Documentation for coding IQB Testcenter responses with coding schemes from IQB Studio."
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+# Welcome {-}
+
+`eatAutoCode` provides R wrapper functions for the IQB auto-coder API. It combines response data from IQB Testcenter with coding schemes from IQB Studio and returns tabular coding results that can be inspected, joined, or exported in an R workflow.
+
+The package is useful when you want to:
+
+- code one response object for a unit,
+- code many response objects in one call,
+- add or overwrite codes with manual scoring information,
+- inspect variable dependencies in a coding scheme, or
+- extract variable locations from unit definitions.
+
+The book is organized around the regular workflow: install the package, prepare coding schemes and response data, run the coder, then inspect the output.
+
+## Package Functions
+
+The exported functions are:
+
+- `code_responses()` for coding one unit response object.
+- `code_responses_array()` for coding several unit response objects at once.
+- `get_dependency_tree()` for inspecting how coding variables depend on each other.
+- `extract_variable_location()` for extracting variable locations from unit definitions.
+
+## Data Expectations
+
+Most functions accept list objects parsed from JSON or JSON strings directly. In practice, the input usually comes from:
+
+- IQB Studio coding schemes,
+- IQB Testcenter response data,
+- optional manual coding data, and
+- unit definitions when variable locations should be extracted.
+
+Where possible, keep the raw JSON exports unchanged until they are parsed or passed into `eatAutoCode`. That makes the workflow easier to audit and repeat.
+

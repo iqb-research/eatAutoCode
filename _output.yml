@@ -1,0 +1,17 @@
+bookdown::gitbook:
+  css: style.css
+  config:
+    toc:
+      before: |
+        <li><a href="./">eatAutoCode</a></li>
+      after: |
+        <li><a href="https://github.com/iqb-research/eatAutoCode">View on GitHub</a></li>
+    edit:
+      link: https://github.com/iqb-research/eatAutoCode/edit/main/%s
+      text: "Edit"
+    sharing:
+      github: true
+      twitter: false
+      facebook: false
+      all: []
+

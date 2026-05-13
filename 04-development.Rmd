@@ -1,0 +1,46 @@
+# Development
+
+## Repository Layout
+
+Important paths in the repository:
+
+- `R/`: R wrapper functions exported by the package.
+- `srcjs/`: TypeScript and JavaScript source code for the auto-coder bridge.
+- `inst/index.js`: bundled JavaScript shipped with the R package.
+- `tests/testthat/`: package tests and test fixtures.
+- `man/`: generated R documentation.
+- `docs/`: rendered bookdown site.
+
+## Updating Documentation
+
+Function documentation is written in roxygen comments in the `R/` files. After editing those comments, regenerate the manual pages and namespace:
+
+```{r document-package, eval=FALSE}
+devtools::document()
+```
+
+The bookdown pages are written in the top-level `.Rmd` files listed in `_bookdown.yml`. Render the book after editing pages:
+
+```{r render-development, eval=FALSE}
+bookdown::render_book("index.Rmd")
+```
+
+## Testing
+
+Run the package tests after changes to the R wrappers or JavaScript bundle:
+
+```{r run-tests, eval=FALSE}
+devtools::test()
+```
+
+The tests include examples for:
+
+- coding one response object,
+- coding arrays of response objects,
+- applying manual coding data, and
+- inspecting dependency trees.
+
+## Publishing With GitHub Pages
+
+This book is configured to render into `docs/`. In the GitHub repository settings, set Pages to publish from the `docs/` folder on the `main` branch.
+

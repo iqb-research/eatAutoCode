@@ -1,0 +1,25 @@
+body {
+  font-size: 16px;
+}
+
+.book .book-summary {
+  background: #f7f8fa;
+}
+
+.book .book-summary ul.summary li a,
+.book .book-summary ul.summary li span {
+  color: #243142;
+}
+
+.book .book-body .page-wrapper .page-inner {
+  max-width: 920px;
+}
+
+code {
+  color: #22324a;
+}
+
+pre {
+  border-radius: 4px;
+}
+

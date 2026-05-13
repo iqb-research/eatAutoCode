@@ -1,0 +1,82 @@
+# Function Reference
+
+## `code_responses()`
+
+```{r ref-code-responses, eval=FALSE}
+code_responses(coding_scheme, responses, manual = "null")
+```
+
+Codes one response object with one coding scheme.
+
+Arguments:
+
+- `coding_scheme`: list or character string containing a coding scheme from IQB Studio Lite.
+- `responses`: list or character string containing unit responses from IQB Testcenter.
+- `manual`: optional list or character string with manual codes. The default `"null"` is treated like missing manual data.
+
+Returns a data frame.
+
+## `code_responses_array()`
+
+```{r ref-code-responses-array, eval=FALSE}
+code_responses_array(
+  coding_scheme,
+  responses,
+  collapse = ";;;",
+  wrap_start = "[[[",
+  wrap_end = "]]]",
+  missing = "___MISSING___"
+)
+```
+
+Codes several response objects with one coding scheme.
+
+Arguments:
+
+- `coding_scheme`: list or character string containing a coding scheme from IQB Studio Lite.
+- `responses`: list or character string containing an array of response objects.
+- `collapse`: separator for concatenating list values.
+- `wrap_start`: prefix used when wrapping list values.
+- `wrap_end`: suffix used when wrapping list values.
+- `missing`: placeholder that is converted to `NA`.
+
+Returns a data frame. The `value` column is coerced to character, so list entries can be represented in a rectangular table.
+
+## `get_dependency_tree()`
+
+```{r ref-dependency-tree, eval=FALSE}
+get_dependency_tree(coding_scheme)
+```
+
+Displays the variable dependency tree of a coding scheme.
+
+Arguments:
+
+- `coding_scheme`: list or character string containing a coding scheme from IQB Studio Lite.
+
+Returns a data frame with dependency information.
+
+## `extract_variable_location()`
+
+```{r ref-variable-location, eval=FALSE}
+extract_variable_location(
+  units,
+  collapse = ";;;",
+  wrap_start = "[[[",
+  wrap_end = "]]]",
+  missing = "___MISSING___"
+)
+```
+
+Extracts variable locations from unit definitions.
+
+Arguments:
+
+- `units`: tibble with a `definition` column containing unit definitions.
+- `collapse`: separator for concatenating list values.
+- `wrap_start`: prefix used when wrapping list values.
+- `wrap_end`: suffix used when wrapping list values.
+- `missing`: placeholder that is converted to `NA`.
+
+Returns a data frame.
+
