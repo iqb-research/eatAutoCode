@@ -47,14 +47,17 @@ export function codeResponses(params: {
   const geometryVariablesToInsert: GeometryVariablesCodes[] | null =
     geometry_variables && deparseJSON(geometry_variables);
 
-  if (geometryVariablesToInsert !== null) {
+  if (
+    geometryVariablesToInsert !== null &&
+    geometryVariablesToInsert !== undefined
+  ) {
     responsesToCode = insertGeometryVariables({
       responses: responsesToCode,
       geometry_variables: geometryVariablesToInsert,
     });
   }
 
-    if (manualToInsert !== null) {
+  if (manualToInsert !== null && manualToInsert !== undefined) {
     responsesToCode = insertManual({
       responses: responsesToCode,
       manual: manualToInsert,
