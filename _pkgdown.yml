@@ -8,7 +8,7 @@ home:
 
 navbar:
   structure:
-    left: [reference]
+    left: [reference, news]
     right: [github]
 
 reference:
