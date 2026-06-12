@@ -12,5 +12,6 @@ test.R
 ^webpack\.common\.js$
 ^tsconfig\.json$
 ^_pkgdown\.yml$
+^\.github$
 ^docs$
 ^pkgdown$
