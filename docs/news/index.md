@@ -1,5 +1,12 @@
 # Changelog
 
+## eatAutoCode 0.5.0.9005 (2026-07-13)
+
+- Added status-crossing regression tests for all derivation methods
+  handled by the bundled `@iqb/responses` 5.1.0 autocoder.
+- Added a pkgdown article documenting the 5.1.0 status matrices for all
+  derivation methods and linked it from the pkgdown articles navigation.
+
 ## eatAutoCode 0.5.0.9004 (2026-07-13)
 
 - Added a complete `SUM_SCORE` status-crossing regression test for all

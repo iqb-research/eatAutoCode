@@ -15,12 +15,15 @@ navbar:
       text: Articles
       menu:
       - text: Status matrices
+      - text: All derivation status matrices
+        href: articles/status-matrices-derivations.html
       - text: SUM_SCORE status matrix
         href: articles/status-matrix-sum-score.html
 
 articles:
   - title: Status matrices
     contents:
+      - status-matrices-derivations
       - status-matrix-sum-score
 
 reference:
