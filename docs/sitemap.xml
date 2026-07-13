@@ -1,9 +1,12 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://iqb-research.github.io/eatAutoCode/404.html</loc></url>
+<url><loc>https://iqb-research.github.io/eatAutoCode/articles/index.html</loc></url>
+<url><loc>https://iqb-research.github.io/eatAutoCode/articles/status-matrix-sum-score.html</loc></url>
 <url><loc>https://iqb-research.github.io/eatAutoCode/authors.html</loc></url>
 <url><loc>https://iqb-research.github.io/eatAutoCode/index.html</loc></url>
 <url><loc>https://iqb-research.github.io/eatAutoCode/LICENSE-text.html</loc></url>
 <url><loc>https://iqb-research.github.io/eatAutoCode/LICENSE.html</loc></url>
+<url><loc>https://iqb-research.github.io/eatAutoCode/news/index.html</loc></url>
 <url><loc>https://iqb-research.github.io/eatAutoCode/reference/code_responses.html</loc></url>
 <url><loc>https://iqb-research.github.io/eatAutoCode/reference/code_responses_array.html</loc></url>
 <url><loc>https://iqb-research.github.io/eatAutoCode/reference/extract_variable_location.html</loc></url>

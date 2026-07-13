@@ -1,0 +1,191 @@
+---
+title: "Statusmatrix fuer SUM_SCORE-Ableitungen"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Statusmatrix fuer SUM_SCORE-Ableitungen}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Diese Seite dokumentiert die erwartete Statusverrechnung fuer eine abgeleitete
+Variable mit `sourceType = "SUM_SCORE"` und zwei Quellvariablen im aktuellen
+`eatAutoCode`-Stand mit `@iqb/responses` 5.1.0.
+
+Die Matrix ist als Regressionstest in
+`tests/testthat/test-status_matrix_sum_score.R` abgedeckt. Der Test baut eine
+vollstaendig geschlossen kodierbare `SUM_SCORE`-Ableitung, prueft alle
+`12 * 12 = 144` Statuskreuzungen und vergleicht den vom Autocoder erzeugten
+Status mit dem hier dokumentierten Sollstatus.
+
+`VALUE_CHANGED` ist in dieser Matrix bewusst nicht enthalten. Dieser Status ist
+ein Zwischenstatus vor der Kodierung von Basisvariablen; als Quellstatus fuer
+eine bereits zu aggregierende `SUM_SCORE`-Ableitung sollte er nach dem
+vorgelagerten Kodierschritt nicht mehr auftreten. `CODE_SELECTION_PENDING` ist
+ebenfalls nicht enthalten, weil es in `@iqb/responses` 5.1.0 nicht Teil der
+Autocoder-Statuskonstanten ist.
+
+## Regelreihenfolge
+
+Die Regeln werden von oben nach unten angewandt. Die erste passende Regel
+bestimmt den Zielstatus.
+
+```{r, echo = FALSE}
+rules <- data.frame(
+  condition = c(
+    "Mindestens eine Quelle ist UNSET.",
+    "Mindestens eine Quelle ist DERIVE_ERROR oder NO_CODING.",
+    "Mindestens eine Quelle ist CODING_ERROR.",
+    "Mindestens eine Quelle ist INVALID.",
+    paste(
+      "Mindestens eine Quelle ist CODING_INCOMPLETE oder DERIVE_PENDING,",
+      "und alle Quellen sind CODING_COMPLETE, INTENDED_INCOMPLETE,",
+      "CODING_INCOMPLETE oder DERIVE_PENDING."
+    ),
+    paste(
+      "Mindestens eine Quelle ist in der zulaessigen/Pending-Gruppe,",
+      "und mindestens eine andere Quelle ist ausserhalb dieser Gruppe."
+    ),
+    paste(
+      "Mindestens eine Quelle ist PARTLY_DISPLAYED oder DISPLAYED,",
+      "und mindestens eine andere Quelle ist NOT_REACHED."
+    ),
+    paste(
+      "Mindestens eine Quelle ist PARTLY_DISPLAYED,",
+      "und mindestens eine andere Quelle ist DISPLAYED."
+    ),
+    paste(
+      "Mindestens eine Quelle ist INTENDED_INCOMPLETE,",
+      "und alle Quellen sind CODING_COMPLETE oder INTENDED_INCOMPLETE."
+    ),
+    "Alle Quellen haben denselben Status."
+  ),
+  result = c(
+    "UNSET",
+    "DERIVE_ERROR",
+    "CODING_ERROR",
+    "INVALID",
+    "DERIVE_PENDING",
+    "INVALID",
+    "PARTLY_DISPLAYED",
+    "PARTLY_DISPLAYED",
+    "CODING_COMPLETE",
+    "Quellstatus wird uebernommen"
+  ),
+  stringsAsFactors = FALSE
+)
+
+knitr::kable(rules)
+```
+
+## Vollstaendige Matrix
+
+```{r, echo = FALSE}
+source_statuses <- c(
+  "CODING_COMPLETE",
+  "INTENDED_INCOMPLETE",
+  "CODING_INCOMPLETE",
+  "DERIVE_PENDING",
+  "UNSET",
+  "NOT_REACHED",
+  "DISPLAYED",
+  "PARTLY_DISPLAYED",
+  "DERIVE_ERROR",
+  "NO_CODING",
+  "INVALID",
+  "CODING_ERROR"
+)
+
+expected_sum_score_status <- function(status_a, status_b) {
+  source_statuses_pair <- c(status_a, status_b)
+  valid_or_pending <- c(
+    "CODING_COMPLETE",
+    "INTENDED_INCOMPLETE",
+    "CODING_INCOMPLETE",
+    "DERIVE_PENDING"
+  )
+
+  if (any(source_statuses_pair == "UNSET")) {
+    return("UNSET")
+  }
+
+  if (any(source_statuses_pair %in% c("DERIVE_ERROR", "NO_CODING"))) {
+    return("DERIVE_ERROR")
+  }
+
+  if (any(source_statuses_pair == "CODING_ERROR")) {
+    return("CODING_ERROR")
+  }
+
+  if (any(source_statuses_pair == "INVALID")) {
+    return("INVALID")
+  }
+
+  if (
+    any(source_statuses_pair %in% c("CODING_INCOMPLETE", "DERIVE_PENDING")) &&
+      all(source_statuses_pair %in% valid_or_pending)
+  ) {
+    return("DERIVE_PENDING")
+  }
+
+  if (
+    any(source_statuses_pair %in% valid_or_pending) &&
+      any(!source_statuses_pair %in% valid_or_pending)
+  ) {
+    return("INVALID")
+  }
+
+  if (
+    any(source_statuses_pair %in% c("PARTLY_DISPLAYED", "DISPLAYED")) &&
+      any(source_statuses_pair == "NOT_REACHED")
+  ) {
+    return("PARTLY_DISPLAYED")
+  }
+
+  if (
+    any(source_statuses_pair == "PARTLY_DISPLAYED") &&
+      any(source_statuses_pair == "DISPLAYED")
+  ) {
+    return("PARTLY_DISPLAYED")
+  }
+
+  if (
+    any(source_statuses_pair == "INTENDED_INCOMPLETE") &&
+      all(source_statuses_pair %in% c("CODING_COMPLETE", "INTENDED_INCOMPLETE"))
+  ) {
+    return("CODING_COMPLETE")
+  }
+
+  if (length(unique(source_statuses_pair)) == 1) {
+    return(source_statuses_pair[1])
+  }
+
+  stop(
+    "No expected status rule for: ",
+    paste(source_statuses_pair, collapse = " x "),
+    call. = FALSE
+  )
+}
+
+status_matrix <- data.frame(
+  case = seq_len(length(source_statuses)^2),
+  source_status_1 = rep(source_statuses, each = length(source_statuses)),
+  source_status_2 = rep(source_statuses, times = length(source_statuses)),
+  stringsAsFactors = FALSE
+)
+
+status_matrix$expected_status <- mapply(
+  expected_sum_score_status,
+  status_matrix$source_status_1,
+  status_matrix$source_status_2,
+  USE.NAMES = FALSE
+)
+
+knitr::kable(status_matrix)
+```

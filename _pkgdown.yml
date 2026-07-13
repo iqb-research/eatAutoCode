@@ -8,8 +8,13 @@ home:
 
 navbar:
   structure:
-    left: [reference, news]
+    left: [reference, articles, news]
     right: [github]
+
+articles:
+  - title: Status matrices
+    contents:
+      - status-matrix-sum-score
 
 reference:
   - title: Coding responses
