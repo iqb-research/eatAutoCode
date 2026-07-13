@@ -7,7 +7,6 @@
   `@iqb/responses` 5.1.0 autocoder.
 - Added a pkgdown article documenting the `SUM_SCORE` status matrix and
   linked it from the pkgdown articles navigation.
-- Updated Karoline Sachse’s package role from contributor to author.
 
 ## eatAutoCode 0.5.0.9003 (2026-06-11)
 
