@@ -1,8 +1,8 @@
 Package: eatAutoCode
 Type: Package
 Title: Automatically Code Technology Based Assessment (TBA) Data
-Version: 0.5.0.9003
-Date: 2026-06-11
+Version: 0.5.0.9004
+Date: 2026-07-13
 Authors@R: c(
     person("Philipp", "Franikowski", , "philipp.franikowski@iqb.hu-berlin.de", role = c("aut"), comment = c(ORCID = "0000-0002-2109-7388")),
     person(given = "Karoline", family = "Sachse", email = "karoline.sachse@iqb.hu-berlin.de", role = c("cre", "ctb"), comment = c(ORCID = "0000-0001-6688-1267")),
@@ -30,5 +30,8 @@ Imports:
     purrr,
     V8
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
+VignetteBuilder: knitr
 Config/testthat/edition: 3
