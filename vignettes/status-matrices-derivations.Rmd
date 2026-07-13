@@ -1,0 +1,406 @@
+---
+title: "Statusmatrizen fuer alle Ableitungsmethoden"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Statusmatrizen fuer alle Ableitungsmethoden}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Diese Seite dokumentiert die erwartete Statusverrechnung fuer alle
+Ableitungsmethoden im aktuellen `eatAutoCode`-Stand mit `@iqb/responses`
+5.1.0.
+
+Die Matrizen beschreiben das Endergebnis nach Ableitung und nach der direkt
+anschliessenden Regelkodierung einer geschlossen kodierbaren Zielvariable. In
+den zugehoerigen Regressionstests haben die Zielvariablen deshalb eine
+`RESIDUAL_AUTO`-Regel. Erfolgreiche Ableitungen, die intern zunaechst
+`VALUE_CHANGED` liefern, erscheinen im Endstatus dadurch als
+`CODING_COMPLETE`.
+
+Die Tests dazu stehen in
+`tests/testthat/test-status_matrices_derivations.R`. Sie pruefen fuer
+`MANUAL`, `CONCAT_CODE`, `SUM_CODE`, `SUM_SCORE`, `UNIQUE_VALUES` und
+`SOLVER` jeweils alle `13 * 13 = 169` Kreuzungen der Quellstatus. `COPY_VALUE`
+ist laut Coding-Scheme-Validierung eine Einquellen-Ableitung; dafuer wird
+deshalb eine `13 * 1`-Matrix getestet und dokumentiert.
+
+## Abgedeckte Methoden
+
+```{r, echo = FALSE}
+methods <- data.frame(
+  method = c(
+    "MANUAL",
+    "COPY_VALUE",
+    "CONCAT_CODE",
+    "SUM_CODE",
+    "SUM_SCORE",
+    "UNIQUE_VALUES",
+    "SOLVER"
+  ),
+  documented_as = c(
+    "13 x 13 Kreuzmatrix",
+    "13 x 1 Einquellen-Matrix",
+    "13 x 13 Kreuzmatrix",
+    "13 x 13 Kreuzmatrix",
+    "13 x 13 Kreuzmatrix",
+    "13 x 13 Kreuzmatrix",
+    "13 x 13 Kreuzmatrix"
+  ),
+  note = c(
+    "Mehrere Quellen sind fachlich als manuelle Vorcodierungen interpretierbar.",
+    "Valide Schemes sollten genau eine Quelle verwenden.",
+    "Aggregiert Codes der Quellen.",
+    "Summiert Codes der Quellen.",
+    "Summiert Scores der Quellen.",
+    "Prueft die Eindeutigkeit der Quellwerte.",
+    "Wertet eine Solver-Expression auf Quellwerten aus."
+  ),
+  stringsAsFactors = FALSE
+)
+
+knitr::kable(methods)
+```
+
+`BASE` und `BASE_NO_VALUE` sind keine Ableitungsmethoden mit
+`deriveSources`-Statusverrechnung und werden deshalb hier nicht als Matrix
+gefuehrt.
+
+## Statusraum
+
+```{r, echo = FALSE}
+derivation_statuses_510 <- c(
+  "VALUE_CHANGED",
+  "CODING_COMPLETE",
+  "INTENDED_INCOMPLETE",
+  "CODING_INCOMPLETE",
+  "DERIVE_PENDING",
+  "UNSET",
+  "NOT_REACHED",
+  "DISPLAYED",
+  "PARTLY_DISPLAYED",
+  "DERIVE_ERROR",
+  "NO_CODING",
+  "INVALID",
+  "CODING_ERROR"
+)
+
+knitr::kable(data.frame(status = derivation_statuses_510))
+```
+
+Im Unterschied zur engeren `SUM_SCORE`-Seite ist `VALUE_CHANGED` hier
+enthalten. Das ist fuer wertbasierte Ableitungsmethoden relevant
+(`COPY_VALUE`, `UNIQUE_VALUES`, `SOLVER`) und macht diese Uebersicht zum
+vollstaendigen 5.1.0-Statusraum.
+
+## Gemeinsame Prioritaeten
+
+Die folgenden Prioritaeten greifen vor der methodenspezifischen Logik. Die
+erste passende Regel bestimmt den Status.
+
+```{r, echo = FALSE}
+common_rules <- data.frame(
+  order = seq_len(5),
+  condition = c(
+    "Mindestens eine Quelle ist UNSET.",
+    "Mindestens eine Quelle ist DERIVE_ERROR.",
+    "Mindestens eine Quelle ist NO_CODING.",
+    "Mindestens eine Quelle ist CODING_ERROR.",
+    "Mindestens eine Quelle ist INVALID."
+  ),
+  result = c(
+    "UNSET",
+    "DERIVE_ERROR",
+    "DERIVE_ERROR",
+    "CODING_ERROR",
+    "INVALID"
+  ),
+  stringsAsFactors = FALSE
+)
+
+knitr::kable(common_rules)
+```
+
+## Gueltige Quellstatus nach Methode
+
+Nach den gemeinsamen Prioritaeten zaehlt `@iqb/responses` 5.1.0 pro Methode,
+welche Quellstatus fuer die Ableitung zulaessig sind.
+
+```{r, echo = FALSE}
+status_matrix_valid_states_510 <- function(method) {
+  switch(
+    method,
+    MANUAL = c(
+      "INVALID",
+      "VALUE_CHANGED",
+      "NO_CODING",
+      "CODING_ERROR",
+      "CODING_COMPLETE",
+      "INTENDED_INCOMPLETE"
+    ),
+    COPY_VALUE = c(
+      "VALUE_CHANGED",
+      "NO_CODING",
+      "CODING_INCOMPLETE",
+      "CODING_ERROR",
+      "CODING_COMPLETE",
+      "INTENDED_INCOMPLETE"
+    ),
+    UNIQUE_VALUES = c(
+      "VALUE_CHANGED",
+      "NO_CODING",
+      "CODING_INCOMPLETE",
+      "CODING_ERROR",
+      "CODING_COMPLETE",
+      "INTENDED_INCOMPLETE"
+    ),
+    SOLVER = c(
+      "VALUE_CHANGED",
+      "NO_CODING",
+      "CODING_INCOMPLETE",
+      "CODING_ERROR",
+      "CODING_COMPLETE",
+      "INTENDED_INCOMPLETE"
+    ),
+    CONCAT_CODE = c("CODING_COMPLETE", "INTENDED_INCOMPLETE"),
+    SUM_CODE = c("CODING_COMPLETE", "INTENDED_INCOMPLETE"),
+    SUM_SCORE = c("CODING_COMPLETE", "INTENDED_INCOMPLETE"),
+    stop("Unknown derivation method: ", method, call. = FALSE)
+  )
+}
+
+valid_states <- data.frame(
+  method = c(
+    "MANUAL",
+    "COPY_VALUE",
+    "CONCAT_CODE",
+    "SUM_CODE",
+    "SUM_SCORE",
+    "UNIQUE_VALUES",
+    "SOLVER"
+  ),
+  valid_source_statuses = vapply(
+    c(
+      "MANUAL",
+      "COPY_VALUE",
+      "CONCAT_CODE",
+      "SUM_CODE",
+      "SUM_SCORE",
+      "UNIQUE_VALUES",
+      "SOLVER"
+    ),
+    function(method) {
+      paste(status_matrix_valid_states_510(method), collapse = ", ")
+    },
+    character(1)
+  ),
+  stringsAsFactors = FALSE
+)
+
+knitr::kable(valid_states)
+```
+
+Wichtig: Einige Status in dieser Liste werden bereits von den gemeinsamen
+Prioritaeten abgefangen. Zum Beispiel fuehrt `NO_CODING` immer zu
+`DERIVE_ERROR`, obwohl es fuer manche wertbasierte Methoden in der internen
+Valid-State-Liste steht.
+
+## Methodenspezifische Regeln
+
+```{r, echo = FALSE}
+specific_rules <- data.frame(
+  methods = c(
+    "CONCAT_CODE, SUM_CODE, SUM_SCORE",
+    "Alle Methoden",
+    "Alle Methoden",
+    "Alle Methoden",
+    "MANUAL",
+    "MANUAL",
+    "COPY_VALUE, CONCAT_CODE, SUM_CODE, SUM_SCORE, UNIQUE_VALUES, SOLVER"
+  ),
+  condition = c(
+    paste(
+      "Mindestens eine Quelle ist CODING_INCOMPLETE oder DERIVE_PENDING,",
+      "und alle Quellen sind CODING_COMPLETE, INTENDED_INCOMPLETE,",
+      "CODING_INCOMPLETE oder DERIVE_PENDING."
+    ),
+    "Es gibt ungueltige Quellstatus und alle Quellen haben denselben Status.",
+    paste(
+      "Es gibt ungueltige Quellstatus und alle Quellen sind",
+      "NOT_REACHED, DISPLAYED oder PARTLY_DISPLAYED."
+    ),
+    "Es gibt ungueltige Quellstatus und keine der obigen Sonderregeln passt.",
+    "Alle Quellen sind INTENDED_INCOMPLETE.",
+    "Die Quellen sind nach den obigen Regeln fuer MANUAL gueltig.",
+    "Die Ableitung liefert erfolgreich VALUE_CHANGED und wird danach kodiert."
+  ),
+  result = c(
+    "DERIVE_PENDING",
+    "Quellstatus wird uebernommen; VALUE_CHANGED wird im Testaufbau CODING_COMPLETE.",
+    "PARTLY_DISPLAYED",
+    "INVALID",
+    "CODING_INCOMPLETE",
+    "CODING_COMPLETE",
+    "CODING_COMPLETE"
+  ),
+  stringsAsFactors = FALSE
+)
+
+knitr::kable(specific_rules)
+```
+
+## Matrixfunktionen
+
+```{r, echo = FALSE}
+status_matrix_finalize_success_510 <- function(status) {
+  if (identical(status, "VALUE_CHANGED")) {
+    return("CODING_COMPLETE")
+  }
+
+  status
+}
+
+expected_derivation_status_510 <- function(method, source_statuses) {
+  if (any(source_statuses == "UNSET")) {
+    return("UNSET")
+  }
+
+  if (any(source_statuses == "DERIVE_ERROR")) {
+    return("DERIVE_ERROR")
+  }
+
+  if (any(source_statuses == "NO_CODING")) {
+    return("DERIVE_ERROR")
+  }
+
+  if (any(source_statuses == "CODING_ERROR")) {
+    return("CODING_ERROR")
+  }
+
+  if (any(source_statuses == "INVALID")) {
+    return("INVALID")
+  }
+
+  aggregate_from_code <- method %in% c("CONCAT_CODE", "SUM_CODE", "SUM_SCORE")
+  valid_for_pending <- c(
+    "CODING_INCOMPLETE",
+    "CODING_COMPLETE",
+    "DERIVE_PENDING",
+    "INTENDED_INCOMPLETE"
+  )
+
+  if (
+    aggregate_from_code &&
+      any(source_statuses %in% c("CODING_INCOMPLETE", "DERIVE_PENDING")) &&
+      all(source_statuses %in% valid_for_pending)
+  ) {
+    return("DERIVE_PENDING")
+  }
+
+  false_states <- sum(
+    !source_statuses %in% status_matrix_valid_states_510(method)
+  )
+
+  if (false_states > 0) {
+    if (all(source_statuses == source_statuses[1])) {
+      return(status_matrix_finalize_success_510(source_statuses[1]))
+    }
+
+    partly_displayed_statuses <- c(
+      "NOT_REACHED",
+      "DISPLAYED",
+      "PARTLY_DISPLAYED"
+    )
+
+    if (all(source_statuses %in% partly_displayed_statuses)) {
+      return("PARTLY_DISPLAYED")
+    }
+
+    return("INVALID")
+  }
+
+  if (identical(method, "MANUAL")) {
+    if (all(source_statuses == "INTENDED_INCOMPLETE")) {
+      return("CODING_INCOMPLETE")
+    }
+
+    return("CODING_COMPLETE")
+  }
+
+  status_matrix_finalize_success_510("VALUE_CHANGED")
+}
+
+derivation_status_pair_matrix_510 <- function(method) {
+  matrix <- data.frame(
+    case = seq_len(length(derivation_statuses_510)^2),
+    method = method,
+    source_status_1 = rep(
+      derivation_statuses_510,
+      each = length(derivation_statuses_510)
+    ),
+    source_status_2 = rep(
+      derivation_statuses_510,
+      times = length(derivation_statuses_510)
+    ),
+    stringsAsFactors = FALSE
+  )
+
+  matrix$expected_status <- mapply(
+    function(status_a, status_b) {
+      expected_derivation_status_510(method, c(status_a, status_b))
+    },
+    matrix$source_status_1,
+    matrix$source_status_2,
+    USE.NAMES = FALSE
+  )
+
+  matrix
+}
+
+copy_value_status_matrix_510 <- function() {
+  matrix <- data.frame(
+    case = seq_along(derivation_statuses_510),
+    method = "COPY_VALUE",
+    source_status = derivation_statuses_510,
+    stringsAsFactors = FALSE
+  )
+
+  matrix$expected_status <- vapply(
+    matrix$source_status,
+    function(status) {
+      expected_derivation_status_510("COPY_VALUE", status)
+    },
+    character(1)
+  )
+
+  matrix
+}
+```
+
+## Vollstaendige Matrizen
+
+```{r, echo = FALSE, results = "asis"}
+multi_source_derivation_methods_510 <- c(
+  "MANUAL",
+  "CONCAT_CODE",
+  "SUM_CODE",
+  "SUM_SCORE",
+  "UNIQUE_VALUES",
+  "SOLVER"
+)
+
+for (method in multi_source_derivation_methods_510) {
+  cat("\n\n### `", method, "`\n\n", sep = "")
+  print(knitr::kable(derivation_status_pair_matrix_510(method)))
+}
+
+cat("\n\n### `COPY_VALUE`\n\n")
+print(knitr::kable(copy_value_status_matrix_510()))
+```
