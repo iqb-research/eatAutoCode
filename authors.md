@@ -5,7 +5,7 @@
 - **Philipp Franikowski**. Author.
   [](https://orcid.org/0000-0002-2109-7388)
 
-- **Karoline Sachse**. Maintainer, author.
+- **Karoline A. Sachse**. Author, maintainer.
   [](https://orcid.org/0000-0001-6688-1267)
 
 - **Jakob Schäfer**. Contributor.
@@ -17,13 +17,13 @@
 ## Citation
 
 Franikowski P, Sachse K (2026). *eatAutoCode: Automatically Code
-Technology Based Assessment (TBA) Data*. R package version 0.5.0.9003,
+Technology Based Assessment (TBA) Data*. R package version 0.5.0.9004,
 <https://iqb-research.github.io/eatAutoCode/>.
 
     @Manual{,
       title = {eatAutoCode: Automatically Code Technology Based Assessment (TBA) Data},
-      author = {Philipp Franikowski and Karoline Sachse},
+      author = {Philipp Franikowski and Karoline A. Sachse},
       year = {2026},
-      note = {R package version 0.5.0.9003},
+      note = {R package version 0.5.0.9004},
       url = {https://iqb-research.github.io/eatAutoCode/},
     }

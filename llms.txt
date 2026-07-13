@@ -58,3 +58,9 @@ package (`devtools::load_all(".")`) and run all of the tests
 - [`extract_variable_location()`](https://iqb-research.github.io/eatAutoCode/reference/extract_variable_location.md)
   : Extract variable locations from unit definition
 
+# Articles
+
+### Status matrices
+
+- [Statusmatrix fuer
+  SUM_SCORE-Ableitungen](https://iqb-research.github.io/eatAutoCode/articles/status-matrix-sum-score.md):

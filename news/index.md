@@ -1,5 +1,13 @@
 # Changelog
 
+## eatAutoCode 0.5.0.9004 (2026-07-13)
+
+- Added a complete `SUM_SCORE` status-crossing regression test for all
+  144 combinations of the 12 source statuses handled by the bundled
+  `@iqb/responses` 5.1.0 autocoder.
+- Added a pkgdown article documenting the `SUM_SCORE` status matrix and
+  linked it from the pkgdown articles navigation.
+
 ## eatAutoCode 0.5.0.9003 (2026-06-11)
 
 - Updated the declared JavaScript autocoder dependency `@iqb/responses`
