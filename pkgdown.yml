@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   status-matrix-sum-score: status-matrix-sum-score.html
-last_built: 2026-07-13T08:26Z
+last_built: 2026-07-13T08:39Z
 urls:
   reference: https://iqb-research.github.io/eatAutoCode/reference
   article: https://iqb-research.github.io/eatAutoCode/articles
