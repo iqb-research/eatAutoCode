@@ -4,7 +4,7 @@ template:
   bootstrap: 5
 
 home:
-  title: Automatically Code Technology Based Assessment Data
+  title: Automatically Code IQB Technology Based Assessment Data
 
 navbar:
   structure:
