@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   status-matrices-derivations: status-matrices-derivations.html
   status-matrix-sum-score: status-matrix-sum-score.html
-last_built: 2026-07-13T09:18Z
+last_built: 2026-08-12T13:15Z
 urls:
   reference: https://iqb-research.github.io/eatAutoCode/reference
   article: https://iqb-research.github.io/eatAutoCode/articles

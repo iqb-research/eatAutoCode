@@ -1,5 +1,18 @@
 # Changelog
 
+## eatAutoCode 0.5.0.9006 (2026-08-11)
+
+- Updated the bundled JavaScript autocoder dependency from
+  `@iqb/responses` `^5.1.0` to
+  [`^5.2.2`](https://github.com/iqb-berlin/responses/releases/tag/5.2.2).
+- Aligned the `@iqbspecs/response` type dependency with the [IQB
+  response specification
+  2.0.0](https://github.com/iqb-specifications/response) used by the
+  autocoder.
+- Updated the derivation status-crossing regression tests for the
+  `@iqb/responses` 5.2.2 `SOLVER` handling of `NO_CODING` base-source
+  responses.
+
 ## eatAutoCode 0.5.0.9005 (2026-07-13)
 
 - Added status-crossing regression tests for all derivation methods
