@@ -74,7 +74,7 @@ expected_derivation_status_510 <- function(method, source_statuses) {
     return("DERIVE_ERROR")
   }
 
-  if (any(source_statuses == "NO_CODING")) {
+  if (!identical(method, "SOLVER") && any(source_statuses == "NO_CODING")) {
     return("DERIVE_ERROR")
   }
 
