@@ -3,7 +3,7 @@
 Diese Seite dokumentiert die erwartete Statusverrechnung fuer eine
 abgeleitete Variable mit `sourceType = "SUM_SCORE"` und zwei
 Quellvariablen im aktuellen `eatAutoCode`-Stand mit `@iqb/responses`
-5.1.0.
+5.2.2.
 
 Die Matrix ist als Regressionstest in
 `tests/testthat/test-status_matrix_sum_score.R` abgedeckt. Der Test baut
@@ -16,7 +16,7 @@ Status ist ein Zwischenstatus vor der Kodierung von Basisvariablen; als
 Quellstatus fuer eine bereits zu aggregierende `SUM_SCORE`-Ableitung
 sollte er nach dem vorgelagerten Kodierschritt nicht mehr auftreten.
 `CODE_SELECTION_PENDING` ist ebenfalls nicht enthalten, weil es in
-`@iqb/responses` 5.1.0 nicht Teil der Autocoder-Statuskonstanten ist.
+`@iqb/responses` 5.2.2 nicht Teil der Autocoder-Statuskonstanten ist.
 
 ## Regelreihenfolge
 

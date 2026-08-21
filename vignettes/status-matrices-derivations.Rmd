@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 Diese Seite dokumentiert die erwartete Statusverrechnung fuer alle
 Ableitungsmethoden im aktuellen `eatAutoCode`-Stand mit `@iqb/responses`
-5.1.0.
+5.2.2.
 
 Die Matrizen beschreiben das Endergebnis nach Ableitung und nach der direkt
 anschliessenden Regelkodierung einer geschlossen kodierbaren Zielvariable. In
@@ -76,7 +76,7 @@ gefuehrt.
 ## Statusraum
 
 ```{r, echo = FALSE}
-derivation_statuses_510 <- c(
+derivation_statuses_522 <- c(
   "VALUE_CHANGED",
   "CODING_COMPLETE",
   "INTENDED_INCOMPLETE",
@@ -92,13 +92,13 @@ derivation_statuses_510 <- c(
   "CODING_ERROR"
 )
 
-knitr::kable(data.frame(status = derivation_statuses_510))
+knitr::kable(data.frame(status = derivation_statuses_522))
 ```
 
 Im Unterschied zur engeren `SUM_SCORE`-Seite ist `VALUE_CHANGED` hier
 enthalten. Das ist fuer wertbasierte Ableitungsmethoden relevant
 (`COPY_VALUE`, `UNIQUE_VALUES`, `SOLVER`) und macht diese Uebersicht zum
-vollstaendigen 5.1.0-Statusraum.
+vollstaendigen 5.2.2-Statusraum.
 
 ## Gemeinsame Prioritaeten
 
@@ -111,7 +111,7 @@ common_rules <- data.frame(
   condition = c(
     "Mindestens eine Quelle ist UNSET.",
     "Mindestens eine Quelle ist DERIVE_ERROR.",
-    "Mindestens eine Quelle ist NO_CODING.",
+    "Mindestens eine Quelle ist NO_CODING, ausser bei SOLVER.",
     "Mindestens eine Quelle ist CODING_ERROR.",
     "Mindestens eine Quelle ist INVALID."
   ),
@@ -130,11 +130,11 @@ knitr::kable(common_rules)
 
 ## Gueltige Quellstatus nach Methode
 
-Nach den gemeinsamen Prioritaeten zaehlt `@iqb/responses` 5.1.0 pro Methode,
+Nach den gemeinsamen Prioritaeten zaehlt `@iqb/responses` 5.2.2 pro Methode,
 welche Quellstatus fuer die Ableitung zulaessig sind.
 
 ```{r, echo = FALSE}
-status_matrix_valid_states_510 <- function(method) {
+status_matrix_valid_states_522 <- function(method) {
   switch(
     method,
     MANUAL = c(
@@ -197,7 +197,7 @@ valid_states <- data.frame(
       "SOLVER"
     ),
     function(method) {
-      paste(status_matrix_valid_states_510(method), collapse = ", ")
+      paste(status_matrix_valid_states_522(method), collapse = ", ")
     },
     character(1)
   ),
@@ -208,9 +208,10 @@ knitr::kable(valid_states)
 ```
 
 Wichtig: Einige Status in dieser Liste werden bereits von den gemeinsamen
-Prioritaeten abgefangen. Zum Beispiel fuehrt `NO_CODING` immer zu
-`DERIVE_ERROR`, obwohl es fuer manche wertbasierte Methoden in der internen
-Valid-State-Liste steht.
+Prioritaeten abgefangen. Zum Beispiel fuehrt `NO_CODING` bei allen Methoden
+ausser `SOLVER` zu `DERIVE_ERROR`, obwohl es fuer manche wertbasierte Methoden
+in der internen Valid-State-Liste steht. Bei `SOLVER` bleibt `NO_CODING` als
+gueltiger Quellstatus in der methodenspezifischen Logik beruecksichtigt.
 
 ## Methodenspezifische Regeln
 
@@ -259,7 +260,7 @@ knitr::kable(specific_rules)
 ## Matrixfunktionen
 
 ```{r, echo = FALSE}
-status_matrix_finalize_success_510 <- function(status) {
+status_matrix_finalize_success_522 <- function(status) {
   if (identical(status, "VALUE_CHANGED")) {
     return("CODING_COMPLETE")
   }
@@ -267,7 +268,7 @@ status_matrix_finalize_success_510 <- function(status) {
   status
 }
 
-expected_derivation_status_510 <- function(method, source_statuses) {
+expected_derivation_status_522 <- function(method, source_statuses) {
   if (any(source_statuses == "UNSET")) {
     return("UNSET")
   }
@@ -276,7 +277,7 @@ expected_derivation_status_510 <- function(method, source_statuses) {
     return("DERIVE_ERROR")
   }
 
-  if (any(source_statuses == "NO_CODING")) {
+  if (!identical(method, "SOLVER") && any(source_statuses == "NO_CODING")) {
     return("DERIVE_ERROR")
   }
 
@@ -305,12 +306,12 @@ expected_derivation_status_510 <- function(method, source_statuses) {
   }
 
   false_states <- sum(
-    !source_statuses %in% status_matrix_valid_states_510(method)
+    !source_statuses %in% status_matrix_valid_states_522(method)
   )
 
   if (false_states > 0) {
     if (all(source_statuses == source_statuses[1])) {
-      return(status_matrix_finalize_success_510(source_statuses[1]))
+      return(status_matrix_finalize_success_522(source_statuses[1]))
     }
 
     partly_displayed_statuses <- c(
@@ -334,27 +335,27 @@ expected_derivation_status_510 <- function(method, source_statuses) {
     return("CODING_COMPLETE")
   }
 
-  status_matrix_finalize_success_510("VALUE_CHANGED")
+  status_matrix_finalize_success_522("VALUE_CHANGED")
 }
 
-derivation_status_pair_matrix_510 <- function(method) {
+derivation_status_pair_matrix_522 <- function(method) {
   matrix <- data.frame(
-    case = seq_len(length(derivation_statuses_510)^2),
+    case = seq_len(length(derivation_statuses_522)^2),
     method = method,
     source_status_1 = rep(
-      derivation_statuses_510,
-      each = length(derivation_statuses_510)
+      derivation_statuses_522,
+      each = length(derivation_statuses_522)
     ),
     source_status_2 = rep(
-      derivation_statuses_510,
-      times = length(derivation_statuses_510)
+      derivation_statuses_522,
+      times = length(derivation_statuses_522)
     ),
     stringsAsFactors = FALSE
   )
 
   matrix$expected_status <- mapply(
     function(status_a, status_b) {
-      expected_derivation_status_510(method, c(status_a, status_b))
+      expected_derivation_status_522(method, c(status_a, status_b))
     },
     matrix$source_status_1,
     matrix$source_status_2,
@@ -364,18 +365,18 @@ derivation_status_pair_matrix_510 <- function(method) {
   matrix
 }
 
-copy_value_status_matrix_510 <- function() {
+copy_value_status_matrix_522 <- function() {
   matrix <- data.frame(
-    case = seq_along(derivation_statuses_510),
+    case = seq_along(derivation_statuses_522),
     method = "COPY_VALUE",
-    source_status = derivation_statuses_510,
+    source_status = derivation_statuses_522,
     stringsAsFactors = FALSE
   )
 
   matrix$expected_status <- vapply(
     matrix$source_status,
     function(status) {
-      expected_derivation_status_510("COPY_VALUE", status)
+      expected_derivation_status_522("COPY_VALUE", status)
     },
     character(1)
   )
@@ -387,7 +388,7 @@ copy_value_status_matrix_510 <- function() {
 ## Vollstaendige Matrizen
 
 ```{r, echo = FALSE, results = "asis"}
-multi_source_derivation_methods_510 <- c(
+multi_source_derivation_methods_522 <- c(
   "MANUAL",
   "CONCAT_CODE",
   "SUM_CODE",
@@ -396,11 +397,11 @@ multi_source_derivation_methods_510 <- c(
   "SOLVER"
 )
 
-for (method in multi_source_derivation_methods_510) {
+for (method in multi_source_derivation_methods_522) {
   cat("\n\n### `", method, "`\n\n", sep = "")
-  print(knitr::kable(derivation_status_pair_matrix_510(method)))
+  print(knitr::kable(derivation_status_pair_matrix_522(method)))
 }
 
 cat("\n\n### `COPY_VALUE`\n\n")
-print(knitr::kable(copy_value_status_matrix_510()))
+print(knitr::kable(copy_value_status_matrix_522()))
 ```

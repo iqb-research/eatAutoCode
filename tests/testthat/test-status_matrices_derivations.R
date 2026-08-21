@@ -1,4 +1,4 @@
-derivation_statuses_510 <- c(
+derivation_statuses_522 <- c(
   "VALUE_CHANGED",
   "CODING_COMPLETE",
   "INTENDED_INCOMPLETE",
@@ -14,7 +14,7 @@ derivation_statuses_510 <- c(
   "CODING_ERROR"
 )
 
-multi_source_derivation_methods_510 <- c(
+multi_source_derivation_methods_522 <- c(
   "MANUAL",
   "CONCAT_CODE",
   "SUM_CODE",
@@ -23,7 +23,7 @@ multi_source_derivation_methods_510 <- c(
   "SOLVER"
 )
 
-status_matrix_valid_states_510 <- function(method) {
+status_matrix_valid_states_522 <- function(method) {
   switch(
     method,
     MANUAL = c(
@@ -65,7 +65,7 @@ status_matrix_valid_states_510 <- function(method) {
   )
 }
 
-expected_derivation_status_510 <- function(method, source_statuses) {
+expected_derivation_status_522 <- function(method, source_statuses) {
   if (any(source_statuses == "UNSET")) {
     return("UNSET")
   }
@@ -103,12 +103,12 @@ expected_derivation_status_510 <- function(method, source_statuses) {
   }
 
   false_states <- sum(
-    !source_statuses %in% status_matrix_valid_states_510(method)
+    !source_statuses %in% status_matrix_valid_states_522(method)
   )
 
   if (false_states > 0) {
     if (all(source_statuses == source_statuses[1])) {
-      return(status_matrix_finalize_success_510(source_statuses[1]))
+      return(status_matrix_finalize_success_522(source_statuses[1]))
     }
 
     partly_displayed_statuses <- c(
@@ -132,10 +132,10 @@ expected_derivation_status_510 <- function(method, source_statuses) {
     return("CODING_COMPLETE")
   }
 
-  status_matrix_finalize_success_510("VALUE_CHANGED")
+  status_matrix_finalize_success_522("VALUE_CHANGED")
 }
 
-status_matrix_finalize_success_510 <- function(status) {
+status_matrix_finalize_success_522 <- function(status) {
   if (identical(status, "VALUE_CHANGED")) {
     return("CODING_COMPLETE")
   }
@@ -143,15 +143,15 @@ status_matrix_finalize_success_510 <- function(status) {
   status
 }
 
-derivation_status_pair_matrix_510 <- function(method) {
+derivation_status_pair_matrix_522 <- function(method) {
   matrix <- data.frame(
     status_a = rep(
-      derivation_statuses_510,
-      each = length(derivation_statuses_510)
+      derivation_statuses_522,
+      each = length(derivation_statuses_522)
     ),
     status_b = rep(
-      derivation_statuses_510,
-      times = length(derivation_statuses_510)
+      derivation_statuses_522,
+      times = length(derivation_statuses_522)
     ),
     stringsAsFactors = FALSE
   )
@@ -160,7 +160,7 @@ derivation_status_pair_matrix_510 <- function(method) {
   matrix$method <- method
   matrix$expected_status <- mapply(
     function(status_a, status_b) {
-      expected_derivation_status_510(method, c(status_a, status_b))
+      expected_derivation_status_522(method, c(status_a, status_b))
     },
     matrix$status_a,
     matrix$status_b,
@@ -172,9 +172,9 @@ derivation_status_pair_matrix_510 <- function(method) {
   ]
 }
 
-copy_value_status_matrix_510 <- function() {
+copy_value_status_matrix_522 <- function() {
   matrix <- data.frame(
-    status = derivation_statuses_510,
+    status = derivation_statuses_522,
     stringsAsFactors = FALSE
   )
 
@@ -183,7 +183,7 @@ copy_value_status_matrix_510 <- function() {
   matrix$expected_status <- vapply(
     matrix$status,
     function(status) {
-      expected_derivation_status_510("COPY_VALUE", status)
+      expected_derivation_status_522("COPY_VALUE", status)
     },
     character(1)
   )
@@ -191,7 +191,7 @@ copy_value_status_matrix_510 <- function() {
   matrix[c("case", "method", "status", "expected_status")]
 }
 
-status_matrix_base_coding_510 <- function(id) {
+status_matrix_base_coding_522 <- function(id) {
   list(
     id = id,
     alias = id,
@@ -210,7 +210,7 @@ status_matrix_base_coding_510 <- function(id) {
   )
 }
 
-status_matrix_residual_codes_510 <- function() {
+status_matrix_residual_codes_522 <- function() {
   list(
     list(
       id = 0,
@@ -224,7 +224,7 @@ status_matrix_residual_codes_510 <- function() {
   )
 }
 
-status_matrix_source_parameters_510 <- function(method, source_ids) {
+status_matrix_source_parameters_522 <- function(method, source_ids) {
   if (identical(method, "SOLVER")) {
     expression <- paste0(
       paste0("${", source_ids, "}"),
@@ -243,33 +243,33 @@ status_matrix_source_parameters_510 <- function(method, source_ids) {
   )
 }
 
-status_matrix_derived_coding_510 <- function(method, source_ids) {
+status_matrix_derived_coding_522 <- function(method, source_ids) {
   list(
     id = "derived",
     alias = "derived",
     label = "",
     sourceType = method,
-    sourceParameters = status_matrix_source_parameters_510(method, source_ids),
+    sourceParameters = status_matrix_source_parameters_522(method, source_ids),
     deriveSources = as.list(source_ids),
     processing = list(),
     fragmenting = "",
     manualInstruction = "",
     codeModel = "RULES_ONLY",
-    codes = status_matrix_residual_codes_510()
+    codes = status_matrix_residual_codes_522()
   )
 }
 
-status_matrix_coding_scheme_510 <- function(method, source_ids) {
+status_matrix_coding_scheme_522 <- function(method, source_ids) {
   list(
     variableCodings = c(
-      lapply(source_ids, status_matrix_base_coding_510),
-      list(status_matrix_derived_coding_510(method, source_ids))
+      lapply(source_ids, status_matrix_base_coding_522),
+      list(status_matrix_derived_coding_522(method, source_ids))
     ),
     version = "3.0"
   )
 }
 
-status_matrix_response_510 <- function(id, status) {
+status_matrix_response_522 <- function(id, status) {
   response <- list(
     id = id,
     status = status,
@@ -284,16 +284,16 @@ status_matrix_response_510 <- function(id, status) {
   response
 }
 
-code_derivation_status_510 <- function(method, source_statuses) {
+code_derivation_status_522 <- function(method, source_statuses) {
   source_ids <- paste0("source_", seq_along(source_statuses))
   coded <- code_responses(
     coding_scheme = jsonlite::toJSON(
-      status_matrix_coding_scheme_510(method, source_ids),
+      status_matrix_coding_scheme_522(method, source_ids),
       auto_unbox = TRUE,
       null = "null"
     ),
     responses = jsonlite::toJSON(
-      unname(Map(status_matrix_response_510, source_ids, source_statuses)),
+      unname(Map(status_matrix_response_522, source_ids, source_statuses)),
       auto_unbox = TRUE,
       null = "null"
     )
@@ -303,16 +303,16 @@ code_derivation_status_510 <- function(method, source_statuses) {
 }
 
 test_that("multi-source derivation methods cover every source status crossing", {
-  for (method in multi_source_derivation_methods_510) {
-    matrix <- derivation_status_pair_matrix_510(method)
+  for (method in multi_source_derivation_methods_522) {
+    matrix <- derivation_status_pair_matrix_522(method)
 
-    expect_equal(nrow(matrix), length(derivation_statuses_510)^2)
-    expect_setequal(matrix$status_a, derivation_statuses_510)
-    expect_setequal(matrix$status_b, derivation_statuses_510)
+    expect_equal(nrow(matrix), length(derivation_statuses_522)^2)
+    expect_setequal(matrix$status_a, derivation_statuses_522)
+    expect_setequal(matrix$status_b, derivation_statuses_522)
 
     matrix$actual_status <- mapply(
       function(status_a, status_b) {
-        code_derivation_status_510(method, c(status_a, status_b))
+        code_derivation_status_522(method, c(status_a, status_b))
       },
       matrix$status_a,
       matrix$status_b,
@@ -340,15 +340,15 @@ test_that("multi-source derivation methods cover every source status crossing", 
 })
 
 test_that("COPY_VALUE covers every valid single-source status", {
-  matrix <- copy_value_status_matrix_510()
+  matrix <- copy_value_status_matrix_522()
 
-  expect_equal(nrow(matrix), length(derivation_statuses_510))
-  expect_setequal(matrix$status, derivation_statuses_510)
+  expect_equal(nrow(matrix), length(derivation_statuses_522))
+  expect_setequal(matrix$status, derivation_statuses_522)
 
   matrix$actual_status <- vapply(
     matrix$status,
     function(status) {
-      code_derivation_status_510("COPY_VALUE", status)
+      code_derivation_status_522("COPY_VALUE", status)
     },
     character(1)
   )

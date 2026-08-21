@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">eatAutoCode</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@
     
 <p>Diese Seite dokumentiert die erwartete Statusverrechnung fuer alle
 Ableitungsmethoden im aktuellen <code>eatAutoCode</code>-Stand mit
-<code>@iqb/responses</code> 5.1.0.</p>
+<code>@iqb/responses</code> 5.2.2.</p>
 <p>Die Matrizen beschreiben das Endergebnis nach Ableitung und nach der
 direkt anschliessenden Regelkodierung einer geschlossen kodierbaren
 Zielvariable. In den zugehoerigen Regressionstests haben die
@@ -196,7 +196,7 @@ werden deshalb hier nicht als Matrix gefuehrt.</p>
 <code>VALUE_CHANGED</code> hier enthalten. Das ist fuer wertbasierte
 Ableitungsmethoden relevant (<code>COPY_VALUE</code>,
 <code>UNIQUE_VALUES</code>, <code>SOLVER</code>) und macht diese
-Uebersicht zum vollstaendigen 5.1.0-Statusraum.</p>
+Uebersicht zum vollstaendigen 5.2.2-Statusraum.</p>
 </div>
 <div class="section level2">
 <h2 id="gemeinsame-prioritaeten">Gemeinsame Prioritaeten<a class="anchor" aria-label="anchor" href="#gemeinsame-prioritaeten"></a>
@@ -204,6 +204,11 @@ Uebersicht zum vollstaendigen 5.1.0-Statusraum.</p>
 <p>Die folgenden Prioritaeten greifen vor der methodenspezifischen
 Logik. Die erste passende Regel bestimmt den Status.</p>
 <table class="table">
+<colgroup>
+<col width="7%">
+<col width="75%">
+<col width="17%">
+</colgroup>
 <thead><tr class="header">
 <th align="right">order</th>
 <th align="left">condition</th>
@@ -222,7 +227,8 @@ Logik. Die erste passende Regel bestimmt den Status.</p>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="left">Mindestens eine Quelle ist NO_CODING.</td>
+<td align="left">Mindestens eine Quelle ist NO_CODING, ausser bei
+SOLVER.</td>
 <td align="left">DERIVE_ERROR</td>
 </tr>
 <tr class="even">
@@ -242,7 +248,7 @@ Logik. Die erste passende Regel bestimmt den Status.</p>
 <h2 id="gueltige-quellstatus-nach-methode">Gueltige Quellstatus nach Methode<a class="anchor" aria-label="anchor" href="#gueltige-quellstatus-nach-methode"></a>
 </h2>
 <p>Nach den gemeinsamen Prioritaeten zaehlt <code>@iqb/responses</code>
-5.1.0 pro Methode, welche Quellstatus fuer die Ableitung zulaessig
+5.2.2 pro Methode, welche Quellstatus fuer die Ableitung zulaessig
 sind.</p>
 <table class="table">
 <colgroup>
@@ -299,9 +305,11 @@ CODING_ERROR, CODING_COMPLETE, INTENDED_INCOMPLETE</td>
 </table>
 <p>Wichtig: Einige Status in dieser Liste werden bereits von den
 gemeinsamen Prioritaeten abgefangen. Zum Beispiel fuehrt
-<code>NO_CODING</code> immer zu <code>DERIVE_ERROR</code>, obwohl es
-fuer manche wertbasierte Methoden in der internen Valid-State-Liste
-steht.</p>
+<code>NO_CODING</code> bei allen Methoden ausser <code>SOLVER</code> zu
+<code>DERIVE_ERROR</code>, obwohl es fuer manche wertbasierte Methoden
+in der internen Valid-State-Liste steht. Bei <code>SOLVER</code> bleibt
+<code>NO_CODING</code> als gueltiger Quellstatus in der
+methodenspezifischen Logik beruecksichtigt.</p>
 </div>
 <div class="section level2">
 <h2 id="methodenspezifische-regeln">Methodenspezifische Regeln<a class="anchor" aria-label="anchor" href="#methodenspezifische-regeln"></a>
@@ -6497,7 +6505,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">VALUE_CHANGED</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_COMPLETE</td>
 </tr>
 <tr class="even">
 <td align="right">12</td>
@@ -6588,7 +6596,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">CODING_COMPLETE</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_COMPLETE</td>
 </tr>
 <tr class="odd">
 <td align="right">25</td>
@@ -6679,7 +6687,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">INTENDED_INCOMPLETE</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_COMPLETE</td>
 </tr>
 <tr class="even">
 <td align="right">38</td>
@@ -6770,7 +6778,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">CODING_INCOMPLETE</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_COMPLETE</td>
 </tr>
 <tr class="odd">
 <td align="right">51</td>
@@ -6861,7 +6869,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">DERIVE_PENDING</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="even">
 <td align="right">64</td>
@@ -7043,7 +7051,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">NOT_REACHED</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="even">
 <td align="right">90</td>
@@ -7134,7 +7142,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">DISPLAYED</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="odd">
 <td align="right">103</td>
@@ -7225,7 +7233,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">PARTLY_DISPLAYED</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="even">
 <td align="right">116</td>
@@ -7337,35 +7345,35 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">VALUE_CHANGED</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_COMPLETE</td>
 </tr>
 <tr class="even">
 <td align="right">132</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">CODING_COMPLETE</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_COMPLETE</td>
 </tr>
 <tr class="odd">
 <td align="right">133</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">INTENDED_INCOMPLETE</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_COMPLETE</td>
 </tr>
 <tr class="even">
 <td align="right">134</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">CODING_INCOMPLETE</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_COMPLETE</td>
 </tr>
 <tr class="odd">
 <td align="right">135</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">DERIVE_PENDING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="even">
 <td align="right">136</td>
@@ -7379,21 +7387,21 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">NOT_REACHED</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="even">
 <td align="right">138</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">DISPLAYED</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="odd">
 <td align="right">139</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">PARTLY_DISPLAYED</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="even">
 <td align="right">140</td>
@@ -7407,21 +7415,21 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_COMPLETE</td>
 </tr>
 <tr class="even">
 <td align="right">142</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">INVALID</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="odd">
 <td align="right">143</td>
 <td align="left">SOLVER</td>
 <td align="left">NO_CODING</td>
 <td align="left">CODING_ERROR</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_ERROR</td>
 </tr>
 <tr class="even">
 <td align="right">144</td>
@@ -7498,7 +7506,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">INVALID</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">INVALID</td>
 </tr>
 <tr class="odd">
 <td align="right">155</td>
@@ -7589,7 +7597,7 @@ wird danach kodiert.</td>
 <td align="left">SOLVER</td>
 <td align="left">CODING_ERROR</td>
 <td align="left">NO_CODING</td>
-<td align="left">DERIVE_ERROR</td>
+<td align="left">CODING_ERROR</td>
 </tr>
 <tr class="even">
 <td align="right">168</td>

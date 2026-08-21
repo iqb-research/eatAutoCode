@@ -2,7 +2,7 @@
 
 Diese Seite dokumentiert die erwartete Statusverrechnung fuer alle
 Ableitungsmethoden im aktuellen `eatAutoCode`-Stand mit `@iqb/responses`
-5.1.0.
+5.2.2.
 
 Die Matrizen beschreiben das Endergebnis nach Ableitung und nach der
 direkt anschliessenden Regelkodierung einer geschlossen kodierbaren
@@ -56,24 +56,24 @@ Matrix gefuehrt.
 Im Unterschied zur engeren `SUM_SCORE`-Seite ist `VALUE_CHANGED` hier
 enthalten. Das ist fuer wertbasierte Ableitungsmethoden relevant
 (`COPY_VALUE`, `UNIQUE_VALUES`, `SOLVER`) und macht diese Uebersicht zum
-vollstaendigen 5.1.0-Statusraum.
+vollstaendigen 5.2.2-Statusraum.
 
 ## Gemeinsame Prioritaeten
 
 Die folgenden Prioritaeten greifen vor der methodenspezifischen Logik.
 Die erste passende Regel bestimmt den Status.
 
-| order | condition                                | result       |
-|------:|:-----------------------------------------|:-------------|
-|     1 | Mindestens eine Quelle ist UNSET.        | UNSET        |
-|     2 | Mindestens eine Quelle ist DERIVE_ERROR. | DERIVE_ERROR |
-|     3 | Mindestens eine Quelle ist NO_CODING.    | DERIVE_ERROR |
-|     4 | Mindestens eine Quelle ist CODING_ERROR. | CODING_ERROR |
-|     5 | Mindestens eine Quelle ist INVALID.      | INVALID      |
+| order | condition | result |
+|---:|:---|:---|
+| 1 | Mindestens eine Quelle ist UNSET. | UNSET |
+| 2 | Mindestens eine Quelle ist DERIVE_ERROR. | DERIVE_ERROR |
+| 3 | Mindestens eine Quelle ist NO_CODING, ausser bei SOLVER. | DERIVE_ERROR |
+| 4 | Mindestens eine Quelle ist CODING_ERROR. | CODING_ERROR |
+| 5 | Mindestens eine Quelle ist INVALID. | INVALID |
 
 ## Gueltige Quellstatus nach Methode
 
-Nach den gemeinsamen Prioritaeten zaehlt `@iqb/responses` 5.1.0 pro
+Nach den gemeinsamen Prioritaeten zaehlt `@iqb/responses` 5.2.2 pro
 Methode, welche Quellstatus fuer die Ableitung zulaessig sind.
 
 |  | method | valid_source_statuses |
@@ -87,9 +87,11 @@ Methode, welche Quellstatus fuer die Ableitung zulaessig sind.
 | SOLVER | SOLVER | VALUE_CHANGED, NO_CODING, CODING_INCOMPLETE, CODING_ERROR, CODING_COMPLETE, INTENDED_INCOMPLETE |
 
 Wichtig: Einige Status in dieser Liste werden bereits von den
-gemeinsamen Prioritaeten abgefangen. Zum Beispiel fuehrt `NO_CODING`
-immer zu `DERIVE_ERROR`, obwohl es fuer manche wertbasierte Methoden in
-der internen Valid-State-Liste steht.
+gemeinsamen Prioritaeten abgefangen. Zum Beispiel fuehrt `NO_CODING` bei
+allen Methoden ausser `SOLVER` zu `DERIVE_ERROR`, obwohl es fuer manche
+wertbasierte Methoden in der internen Valid-State-Liste steht. Bei
+`SOLVER` bleibt `NO_CODING` als gueltiger Quellstatus in der
+methodenspezifischen Logik beruecksichtigt.
 
 ## Methodenspezifische Regeln
 
@@ -991,7 +993,7 @@ der internen Valid-State-Liste steht.
 |    8 | SOLVER | VALUE_CHANGED       | DISPLAYED           | INVALID          |
 |    9 | SOLVER | VALUE_CHANGED       | PARTLY_DISPLAYED    | INVALID          |
 |   10 | SOLVER | VALUE_CHANGED       | DERIVE_ERROR        | DERIVE_ERROR     |
-|   11 | SOLVER | VALUE_CHANGED       | NO_CODING           | DERIVE_ERROR     |
+|   11 | SOLVER | VALUE_CHANGED       | NO_CODING           | CODING_COMPLETE  |
 |   12 | SOLVER | VALUE_CHANGED       | INVALID             | INVALID          |
 |   13 | SOLVER | VALUE_CHANGED       | CODING_ERROR        | CODING_ERROR     |
 |   14 | SOLVER | CODING_COMPLETE     | VALUE_CHANGED       | CODING_COMPLETE  |
@@ -1004,7 +1006,7 @@ der internen Valid-State-Liste steht.
 |   21 | SOLVER | CODING_COMPLETE     | DISPLAYED           | INVALID          |
 |   22 | SOLVER | CODING_COMPLETE     | PARTLY_DISPLAYED    | INVALID          |
 |   23 | SOLVER | CODING_COMPLETE     | DERIVE_ERROR        | DERIVE_ERROR     |
-|   24 | SOLVER | CODING_COMPLETE     | NO_CODING           | DERIVE_ERROR     |
+|   24 | SOLVER | CODING_COMPLETE     | NO_CODING           | CODING_COMPLETE  |
 |   25 | SOLVER | CODING_COMPLETE     | INVALID             | INVALID          |
 |   26 | SOLVER | CODING_COMPLETE     | CODING_ERROR        | CODING_ERROR     |
 |   27 | SOLVER | INTENDED_INCOMPLETE | VALUE_CHANGED       | CODING_COMPLETE  |
@@ -1017,7 +1019,7 @@ der internen Valid-State-Liste steht.
 |   34 | SOLVER | INTENDED_INCOMPLETE | DISPLAYED           | INVALID          |
 |   35 | SOLVER | INTENDED_INCOMPLETE | PARTLY_DISPLAYED    | INVALID          |
 |   36 | SOLVER | INTENDED_INCOMPLETE | DERIVE_ERROR        | DERIVE_ERROR     |
-|   37 | SOLVER | INTENDED_INCOMPLETE | NO_CODING           | DERIVE_ERROR     |
+|   37 | SOLVER | INTENDED_INCOMPLETE | NO_CODING           | CODING_COMPLETE  |
 |   38 | SOLVER | INTENDED_INCOMPLETE | INVALID             | INVALID          |
 |   39 | SOLVER | INTENDED_INCOMPLETE | CODING_ERROR        | CODING_ERROR     |
 |   40 | SOLVER | CODING_INCOMPLETE   | VALUE_CHANGED       | CODING_COMPLETE  |
@@ -1030,7 +1032,7 @@ der internen Valid-State-Liste steht.
 |   47 | SOLVER | CODING_INCOMPLETE   | DISPLAYED           | INVALID          |
 |   48 | SOLVER | CODING_INCOMPLETE   | PARTLY_DISPLAYED    | INVALID          |
 |   49 | SOLVER | CODING_INCOMPLETE   | DERIVE_ERROR        | DERIVE_ERROR     |
-|   50 | SOLVER | CODING_INCOMPLETE   | NO_CODING           | DERIVE_ERROR     |
+|   50 | SOLVER | CODING_INCOMPLETE   | NO_CODING           | CODING_COMPLETE  |
 |   51 | SOLVER | CODING_INCOMPLETE   | INVALID             | INVALID          |
 |   52 | SOLVER | CODING_INCOMPLETE   | CODING_ERROR        | CODING_ERROR     |
 |   53 | SOLVER | DERIVE_PENDING      | VALUE_CHANGED       | INVALID          |
@@ -1043,7 +1045,7 @@ der internen Valid-State-Liste steht.
 |   60 | SOLVER | DERIVE_PENDING      | DISPLAYED           | INVALID          |
 |   61 | SOLVER | DERIVE_PENDING      | PARTLY_DISPLAYED    | INVALID          |
 |   62 | SOLVER | DERIVE_PENDING      | DERIVE_ERROR        | DERIVE_ERROR     |
-|   63 | SOLVER | DERIVE_PENDING      | NO_CODING           | DERIVE_ERROR     |
+|   63 | SOLVER | DERIVE_PENDING      | NO_CODING           | INVALID          |
 |   64 | SOLVER | DERIVE_PENDING      | INVALID             | INVALID          |
 |   65 | SOLVER | DERIVE_PENDING      | CODING_ERROR        | CODING_ERROR     |
 |   66 | SOLVER | UNSET               | VALUE_CHANGED       | UNSET            |
@@ -1069,7 +1071,7 @@ der internen Valid-State-Liste steht.
 |   86 | SOLVER | NOT_REACHED         | DISPLAYED           | PARTLY_DISPLAYED |
 |   87 | SOLVER | NOT_REACHED         | PARTLY_DISPLAYED    | PARTLY_DISPLAYED |
 |   88 | SOLVER | NOT_REACHED         | DERIVE_ERROR        | DERIVE_ERROR     |
-|   89 | SOLVER | NOT_REACHED         | NO_CODING           | DERIVE_ERROR     |
+|   89 | SOLVER | NOT_REACHED         | NO_CODING           | INVALID          |
 |   90 | SOLVER | NOT_REACHED         | INVALID             | INVALID          |
 |   91 | SOLVER | NOT_REACHED         | CODING_ERROR        | CODING_ERROR     |
 |   92 | SOLVER | DISPLAYED           | VALUE_CHANGED       | INVALID          |
@@ -1082,7 +1084,7 @@ der internen Valid-State-Liste steht.
 |   99 | SOLVER | DISPLAYED           | DISPLAYED           | DISPLAYED        |
 |  100 | SOLVER | DISPLAYED           | PARTLY_DISPLAYED    | PARTLY_DISPLAYED |
 |  101 | SOLVER | DISPLAYED           | DERIVE_ERROR        | DERIVE_ERROR     |
-|  102 | SOLVER | DISPLAYED           | NO_CODING           | DERIVE_ERROR     |
+|  102 | SOLVER | DISPLAYED           | NO_CODING           | INVALID          |
 |  103 | SOLVER | DISPLAYED           | INVALID             | INVALID          |
 |  104 | SOLVER | DISPLAYED           | CODING_ERROR        | CODING_ERROR     |
 |  105 | SOLVER | PARTLY_DISPLAYED    | VALUE_CHANGED       | INVALID          |
@@ -1095,7 +1097,7 @@ der internen Valid-State-Liste steht.
 |  112 | SOLVER | PARTLY_DISPLAYED    | DISPLAYED           | PARTLY_DISPLAYED |
 |  113 | SOLVER | PARTLY_DISPLAYED    | PARTLY_DISPLAYED    | PARTLY_DISPLAYED |
 |  114 | SOLVER | PARTLY_DISPLAYED    | DERIVE_ERROR        | DERIVE_ERROR     |
-|  115 | SOLVER | PARTLY_DISPLAYED    | NO_CODING           | DERIVE_ERROR     |
+|  115 | SOLVER | PARTLY_DISPLAYED    | NO_CODING           | INVALID          |
 |  116 | SOLVER | PARTLY_DISPLAYED    | INVALID             | INVALID          |
 |  117 | SOLVER | PARTLY_DISPLAYED    | CODING_ERROR        | CODING_ERROR     |
 |  118 | SOLVER | DERIVE_ERROR        | VALUE_CHANGED       | DERIVE_ERROR     |
@@ -1111,19 +1113,19 @@ der internen Valid-State-Liste steht.
 |  128 | SOLVER | DERIVE_ERROR        | NO_CODING           | DERIVE_ERROR     |
 |  129 | SOLVER | DERIVE_ERROR        | INVALID             | DERIVE_ERROR     |
 |  130 | SOLVER | DERIVE_ERROR        | CODING_ERROR        | DERIVE_ERROR     |
-|  131 | SOLVER | NO_CODING           | VALUE_CHANGED       | DERIVE_ERROR     |
-|  132 | SOLVER | NO_CODING           | CODING_COMPLETE     | DERIVE_ERROR     |
-|  133 | SOLVER | NO_CODING           | INTENDED_INCOMPLETE | DERIVE_ERROR     |
-|  134 | SOLVER | NO_CODING           | CODING_INCOMPLETE   | DERIVE_ERROR     |
-|  135 | SOLVER | NO_CODING           | DERIVE_PENDING      | DERIVE_ERROR     |
+|  131 | SOLVER | NO_CODING           | VALUE_CHANGED       | CODING_COMPLETE  |
+|  132 | SOLVER | NO_CODING           | CODING_COMPLETE     | CODING_COMPLETE  |
+|  133 | SOLVER | NO_CODING           | INTENDED_INCOMPLETE | CODING_COMPLETE  |
+|  134 | SOLVER | NO_CODING           | CODING_INCOMPLETE   | CODING_COMPLETE  |
+|  135 | SOLVER | NO_CODING           | DERIVE_PENDING      | INVALID          |
 |  136 | SOLVER | NO_CODING           | UNSET               | UNSET            |
-|  137 | SOLVER | NO_CODING           | NOT_REACHED         | DERIVE_ERROR     |
-|  138 | SOLVER | NO_CODING           | DISPLAYED           | DERIVE_ERROR     |
-|  139 | SOLVER | NO_CODING           | PARTLY_DISPLAYED    | DERIVE_ERROR     |
+|  137 | SOLVER | NO_CODING           | NOT_REACHED         | INVALID          |
+|  138 | SOLVER | NO_CODING           | DISPLAYED           | INVALID          |
+|  139 | SOLVER | NO_CODING           | PARTLY_DISPLAYED    | INVALID          |
 |  140 | SOLVER | NO_CODING           | DERIVE_ERROR        | DERIVE_ERROR     |
-|  141 | SOLVER | NO_CODING           | NO_CODING           | DERIVE_ERROR     |
-|  142 | SOLVER | NO_CODING           | INVALID             | DERIVE_ERROR     |
-|  143 | SOLVER | NO_CODING           | CODING_ERROR        | DERIVE_ERROR     |
+|  141 | SOLVER | NO_CODING           | NO_CODING           | CODING_COMPLETE  |
+|  142 | SOLVER | NO_CODING           | INVALID             | INVALID          |
+|  143 | SOLVER | NO_CODING           | CODING_ERROR        | CODING_ERROR     |
 |  144 | SOLVER | INVALID             | VALUE_CHANGED       | INVALID          |
 |  145 | SOLVER | INVALID             | CODING_COMPLETE     | INVALID          |
 |  146 | SOLVER | INVALID             | INTENDED_INCOMPLETE | INVALID          |
@@ -1134,7 +1136,7 @@ der internen Valid-State-Liste steht.
 |  151 | SOLVER | INVALID             | DISPLAYED           | INVALID          |
 |  152 | SOLVER | INVALID             | PARTLY_DISPLAYED    | INVALID          |
 |  153 | SOLVER | INVALID             | DERIVE_ERROR        | DERIVE_ERROR     |
-|  154 | SOLVER | INVALID             | NO_CODING           | DERIVE_ERROR     |
+|  154 | SOLVER | INVALID             | NO_CODING           | INVALID          |
 |  155 | SOLVER | INVALID             | INVALID             | INVALID          |
 |  156 | SOLVER | INVALID             | CODING_ERROR        | CODING_ERROR     |
 |  157 | SOLVER | CODING_ERROR        | VALUE_CHANGED       | CODING_ERROR     |
@@ -1147,7 +1149,7 @@ der internen Valid-State-Liste steht.
 |  164 | SOLVER | CODING_ERROR        | DISPLAYED           | CODING_ERROR     |
 |  165 | SOLVER | CODING_ERROR        | PARTLY_DISPLAYED    | CODING_ERROR     |
 |  166 | SOLVER | CODING_ERROR        | DERIVE_ERROR        | DERIVE_ERROR     |
-|  167 | SOLVER | CODING_ERROR        | NO_CODING           | DERIVE_ERROR     |
+|  167 | SOLVER | CODING_ERROR        | NO_CODING           | CODING_ERROR     |
 |  168 | SOLVER | CODING_ERROR        | INVALID             | CODING_ERROR     |
 |  169 | SOLVER | CODING_ERROR        | CODING_ERROR        | CODING_ERROR     |
 
