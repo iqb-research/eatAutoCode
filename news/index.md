@@ -1,5 +1,14 @@
 # Changelog
 
+## eatAutoCode 0.5.0.9007 (2026-10-17)
+
+- Updated the bundled JavaScript autocoder dependency from
+  `@iqb/responses` `^5.2.2` to
+  [`^5.3.1`](https://github.com/iqb-berlin/responses/releases/tag/5.3.1).
+- Rebuilt the JavaScript bundle and updated its version metadata.
+  Existing coding and derivation status-matrix regression tests continue
+  to pass unchanged.
+
 ## eatAutoCode 0.5.0.9006 (2026-08-11)
 
 - Updated the bundled JavaScript autocoder dependency from
