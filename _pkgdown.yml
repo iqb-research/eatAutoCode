@@ -14,15 +14,18 @@ navbar:
     articles:
       text: Articles
       menu:
-      - text: Status matrices
+      - text: Regression matrices
+      - text: Valid responses and derivations
+        href: articles/valid-coding-matrices.html
       - text: All derivation status matrices
         href: articles/status-matrices-derivations.html
       - text: SUM_SCORE status matrix
         href: articles/status-matrix-sum-score.html
 
 articles:
-  - title: Status matrices
+  - title: Regression matrices
     contents:
+      - valid-coding-matrices
       - status-matrices-derivations
       - status-matrix-sum-score
 

@@ -1,8 +1,21 @@
 # Statusmatrizen fuer alle Ableitungsmethoden
 
 Diese Seite dokumentiert die erwartete Statusverrechnung fuer alle
-Ableitungsmethoden im aktuellen `eatAutoCode`-Stand mit `@iqb/responses`
-5.2.2.
+Ableitungsmethoden ohne zusaetzliche Partial-Credit-Optionen. Die
+Sollwerte stammen aus `@iqb/responses` 5.2.2 und werden fuer den
+Versionsvergleich von 5.3.1 auf 5.5.0 unveraendert verwendet.
+
+Seit 5.4.0 koennen fuer `SUM_SCORE`, `SUM_CODE` und `CONCAT_CODE` die
+Optionen `TAKE_DISPLAYED_AS_ZERO_IF_PARTIAL` und
+`TAKE_EMPTY_AS_ZERO_IF_PARTIAL` einzeln aktiviert werden. Beide sind
+standardmaessig ausgeschaltet. Die hier gezeigten Matrizen beschreiben
+diesen Standardfall; bei aktivierten Optionen muessen zusaetzlich
+Quellwerte und das Vorhandensein einer regulaer kodierten Quelle
+beruecksichtigt werden.
+
+Die [Matrizen fuer valide Antworten und
+Ableitungen](https://iqb-research.github.io/eatAutoCode/articles/valid-coding-matrices.md)
+ergaenzen diese Statuspruefungen um konkrete Werte, Codes und Scores.
 
 Die Matrizen beschreiben das Endergebnis nach Ableitung und nach der
 direkt anschliessenden Regelkodierung einer geschlossen kodierbaren
@@ -73,8 +86,9 @@ Die erste passende Regel bestimmt den Status.
 
 ## Gueltige Quellstatus nach Methode
 
-Nach den gemeinsamen Prioritaeten zaehlt `@iqb/responses` 5.2.2 pro
-Methode, welche Quellstatus fuer die Ableitung zulaessig sind.
+Nach den gemeinsamen Prioritaeten bestimmt die aus 5.2.2 uebernommene
+Sollwertdefinition pro Methode, welche Quellstatus fuer die Ableitung
+zulaessig sind.
 
 |  | method | valid_source_statuses |
 |:---|:---|:---|

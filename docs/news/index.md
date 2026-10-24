@@ -1,5 +1,51 @@
 # Changelog
 
+## eatAutoCode 0.5.0.9008 (2026-10-24)
+
+- Updated the bundled JavaScript autocoder from `@iqb/responses` 5.3.1
+  to
+  [5.5.0](https://github.com/iqb-berlin/responses/releases/tag/5.5.0),
+  with `@iqbspecs/coding-scheme` 3.5.0 and `@iqbspecs/variable-info`
+  2.1.0. Rebuilt the bundle and version metadata.
+- Added independent expected-value matrices for 113 regular-answer cases
+  and 188 derivation cases. All 1,204 combinations of case, R function
+  and list/JSON input passed against 5.3.1 before the update and against
+  5.5.0 with unchanged expectations. Existing status matrices also pass
+  unchanged.
+- Added integration tests for the optional partial-credit handling of
+  displayed and empty source responses in `SUM_CODE`, `SUM_SCORE` and
+  `CONCAT_CODE`, including source preservation, pending coding and the
+  distinction between `0_x` and `0_0`.
+- Added a vignette documenting the valid-answer and derivation matrices,
+  clarified the default behavior covered by the status vignettes, and
+  added the JavaScript build and version metadata steps to the existing
+  developer update instructions.
+- Documented the pre-existing upstream `COPY_VALUE` behavior that
+  converts numeric `0` and `FALSE` to `null`; this behavior is unchanged
+  by the update.
+
+## eatAutoCode 0.5.0.9007 (2026-10-17)
+
+- Updated the bundled JavaScript autocoder dependency from
+  `@iqb/responses` `^5.2.2` to
+  [`^5.3.1`](https://github.com/iqb-berlin/responses/releases/tag/5.3.1).
+- Rebuilt the JavaScript bundle and updated its version metadata.
+  Existing coding and derivation status-matrix regression tests continue
+  to pass unchanged.
+
+## eatAutoCode 0.5.0.9006 (2026-08-11)
+
+- Updated the bundled JavaScript autocoder dependency from
+  `@iqb/responses` `^5.1.0` to
+  [`^5.2.2`](https://github.com/iqb-berlin/responses/releases/tag/5.2.2).
+- Aligned the `@iqbspecs/response` type dependency with the [IQB
+  response specification
+  2.0.0](https://github.com/iqb-specifications/response) used by the
+  autocoder.
+- Updated the derivation status-crossing regression tests for the
+  `@iqb/responses` 5.2.2 `SOLVER` handling of `NO_CODING` base-source
+  responses.
+
 ## eatAutoCode 0.5.0.9005 (2026-07-13)
 
 - Added status-crossing regression tests for all derivation methods

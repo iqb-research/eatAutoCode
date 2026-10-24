@@ -46,6 +46,13 @@ Second, the auto coder needs to be updated:
 packer::npm_install("@iqb/responses")
 ```
 
+Third, rebuild the JavaScript bundle and update its version metadata:
+
+``` r
+packer::bundle_prod()
+packer::npm_run(c("run", "updateVersion"))
+```
+
 That’s it. To be sure that everything still works, please load the
 package (`devtools::load_all(".")`) and run all of the tests
 (`devtools::test()`) before pulling.

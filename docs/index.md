@@ -14,6 +14,7 @@ You can install the development version of eatAutoCode from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("iqb-research/eatAutoCode")
 ```
@@ -26,13 +27,23 @@ coder, follow this guide.
 First, all packages need to be installed:
 
 ``` r
+
 packer::npm_install()
 ```
 
 Second, the auto coder needs to be updated:
 
 ``` r
+
 packer::npm_install("@iqb/responses")
+```
+
+Third, rebuild the JavaScript bundle and update its version metadata:
+
+``` r
+
+packer::bundle_prod()
+packer::npm_run(c("run", "updateVersion"))
 ```
 
 That’s it. To be sure that everything still works, please load the
