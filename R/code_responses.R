@@ -9,6 +9,6 @@
 code_responses <- function(coding_scheme, responses, manual = "null") {
   eatAutoCode$call("codeResponses",
                    list(codingScheme = coding_scheme,
-                        responses = responses,
+                        responses = serialize_response_input(responses),
                         manual = manual))
 }

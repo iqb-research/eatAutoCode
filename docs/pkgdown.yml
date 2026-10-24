@@ -1,10 +1,11 @@
-pandoc: 3.6.3
+pandoc: '3.10'
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   status-matrices-derivations: status-matrices-derivations.html
   status-matrix-sum-score: status-matrix-sum-score.html
-last_built: 2026-07-13T09:01Z
+  valid-coding-matrices: valid-coding-matrices.html
+last_built: 2026-10-24T11:48Z
 urls:
   reference: https://iqb-research.github.io/eatAutoCode/reference
   article: https://iqb-research.github.io/eatAutoCode/articles

@@ -18,7 +18,7 @@ code_responses_array <- function(coding_scheme,
                                  missing = "___MISSING___") {
   output <- eatAutoCode$call("codeResponsesArray",
                              list(codingScheme = coding_scheme,
-                                  responses = responses,
+                                  responses = serialize_response_input(responses),
                                   collapse = collapse,
                                   wrapStart = wrap_start,
                                   wrapEnd = wrap_end,

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">eatAutoCode</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,8 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><h6 class="dropdown-header" data-toc-skip>Status matrices</h6></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><h6 class="dropdown-header" data-toc-skip>Regression matrices</h6></li>
+    <li><a class="dropdown-item" href="../articles/valid-coding-matrices.html">Valid responses and derivations</a></li>
     <li><a class="dropdown-item" href="../articles/status-matrices-derivations.html">All derivation status matrices</a></li>
     <li><a class="dropdown-item" href="../articles/status-matrix-sum-score.html">SUM_SCORE status matrix</a></li>
   </ul></li>
@@ -34,6 +35,26 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.0.9008" id="eatautocode-0509008-2026-10-24">eatAutoCode 0.5.0.9008 (2026-10-24)<a class="anchor" aria-label="anchor" href="#eatautocode-0509008-2026-10-24"></a></h2>
+<ul><li>Updated the bundled JavaScript autocoder from <code>@iqb/responses</code> 5.3.1 to <a href="https://github.com/iqb-berlin/responses/releases/tag/5.5.0" class="external-link">5.5.0</a>, with <code>@iqbspecs/coding-scheme</code> 3.5.0 and <code>@iqbspecs/variable-info</code> 2.1.0. Rebuilt the bundle and version metadata.</li>
+<li>Added independent expected-value matrices for 113 regular-answer cases and 188 derivation cases. All 1,204 combinations of case, R function and list/JSON input passed against 5.3.1 before the update and against 5.5.0 with unchanged expectations. Existing status matrices also pass unchanged.</li>
+<li>Added integration tests for the optional partial-credit handling of displayed and empty source responses in <code>SUM_CODE</code>, <code>SUM_SCORE</code> and <code>CONCAT_CODE</code>, including source preservation, pending coding and the distinction between <code>0_x</code> and <code>0_0</code>.</li>
+<li>Preserve R <code>NULL</code> values as JSON <code>null</code> in list/data-frame response inputs to both coding functions. This makes the new empty-source option behave consistently for list and JSON inputs.</li>
+<li>Added a vignette documenting the valid-answer and derivation matrices, clarified the default behavior covered by the status vignettes, and expanded the update instructions to include baseline tests, the JavaScript build and version metadata.</li>
+<li>Documented the pre-existing upstream <code>COPY_VALUE</code> behavior that converts numeric <code>0</code> and <code>FALSE</code> to <code>null</code>; this behavior is unchanged by the update.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.0.9007" id="eatautocode-0509007-2026-10-17">eatAutoCode 0.5.0.9007 (2026-10-17)<a class="anchor" aria-label="anchor" href="#eatautocode-0509007-2026-10-17"></a></h2>
+<ul><li>Updated the bundled JavaScript autocoder dependency from <code>@iqb/responses</code> <code>^5.2.2</code> to <a href="https://github.com/iqb-berlin/responses/releases/tag/5.3.1" class="external-link"><code>^5.3.1</code></a>.</li>
+<li>Rebuilt the JavaScript bundle and updated its version metadata. Existing coding and derivation status-matrix regression tests continue to pass unchanged.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.0.9006" id="eatautocode-0509006-2026-08-11">eatAutoCode 0.5.0.9006 (2026-08-11)<a class="anchor" aria-label="anchor" href="#eatautocode-0509006-2026-08-11"></a></h2>
+<ul><li>Updated the bundled JavaScript autocoder dependency from <code>@iqb/responses</code> <code>^5.1.0</code> to <a href="https://github.com/iqb-berlin/responses/releases/tag/5.2.2" class="external-link"><code>^5.2.2</code></a>.</li>
+<li>Aligned the <code>@iqbspecs/response</code> type dependency with the <a href="https://github.com/iqb-specifications/response" class="external-link">IQB response specification 2.0.0</a> used by the autocoder.</li>
+<li>Updated the derivation status-crossing regression tests for the <code>@iqb/responses</code> 5.2.2 <code>SOLVER</code> handling of <code>NO_CODING</code> base-source responses.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.0.9005" id="eatautocode-0509005-2026-07-13">eatAutoCode 0.5.0.9005 (2026-07-13)<a class="anchor" aria-label="anchor" href="#eatautocode-0509005-2026-07-13"></a></h2>
 <ul><li>Added status-crossing regression tests for all derivation methods handled by the bundled <code>@iqb/responses</code> 5.1.0 autocoder.</li>
