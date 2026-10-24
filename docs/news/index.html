@@ -40,8 +40,7 @@
 <ul><li>Updated the bundled JavaScript autocoder from <code>@iqb/responses</code> 5.3.1 to <a href="https://github.com/iqb-berlin/responses/releases/tag/5.5.0" class="external-link">5.5.0</a>, with <code>@iqbspecs/coding-scheme</code> 3.5.0 and <code>@iqbspecs/variable-info</code> 2.1.0. Rebuilt the bundle and version metadata.</li>
 <li>Added independent expected-value matrices for 113 regular-answer cases and 188 derivation cases. All 1,204 combinations of case, R function and list/JSON input passed against 5.3.1 before the update and against 5.5.0 with unchanged expectations. Existing status matrices also pass unchanged.</li>
 <li>Added integration tests for the optional partial-credit handling of displayed and empty source responses in <code>SUM_CODE</code>, <code>SUM_SCORE</code> and <code>CONCAT_CODE</code>, including source preservation, pending coding and the distinction between <code>0_x</code> and <code>0_0</code>.</li>
-<li>Preserve R <code>NULL</code> values as JSON <code>null</code> in list/data-frame response inputs to both coding functions. This makes the new empty-source option behave consistently for list and JSON inputs.</li>
-<li>Added a vignette documenting the valid-answer and derivation matrices, clarified the default behavior covered by the status vignettes, and expanded the update instructions to include baseline tests, the JavaScript build and version metadata.</li>
+<li>Added a vignette documenting the valid-answer and derivation matrices, clarified the default behavior covered by the status vignettes, and added the JavaScript build and version metadata steps to the existing developer update instructions.</li>
 <li>Documented the pre-existing upstream <code>COPY_VALUE</code> behavior that converts numeric <code>0</code> and <code>FALSE</code> to <code>null</code>; this behavior is unchanged by the update.</li>
 </ul></div>
     <div class="section level2">

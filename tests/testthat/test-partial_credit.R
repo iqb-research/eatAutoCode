@@ -42,7 +42,9 @@ partial_credit_scheme <- function(method, options, source_ids = c("a", "b")) {
   list(version = "3.0", variableCodings = c(base, list(derived)))
 }
 
-partial_credit_response <- function(id, status, value = NULL,
+# Logical NA is encoded as JSON null by the existing V8 bridge. R NULL is
+# encoded differently (as {}); its unchanged behavior is characterized below.
+partial_credit_response <- function(id, status, value = NA,
                                     code = NULL, score = NULL) {
   response <- list(id = id, status = status, value = value)
   if (!is.null(code)) response$code <- code
@@ -107,10 +109,10 @@ partial_credit_expect_sources <- function(result, responses, api,
 
 test_that("partial-credit options are independent and preserve source statuses", {
   partials <- list(
-    list(status = "DISPLAYED", value = NULL, option = "displayed"),
+    list(status = "DISPLAYED", value = NA, option = "displayed"),
     list(status = "DISPLAYED", value = FALSE, option = "displayed"),
     list(status = "DISPLAYED", value = 0, option = "displayed"),
-    list(status = "INVALID", value = NULL, option = "empty"),
+    list(status = "INVALID", value = NA, option = "empty"),
     list(status = "INVALID", value = "", option = "empty"),
     list(status = "INVALID", value = list(), option = "empty")
   )
@@ -219,7 +221,7 @@ test_that("null answers awaiting coding remain pending in both input formats", {
     for (api in c("single", "array")) for (input in c("list", "json")) {
       result <- partial_credit_run(method, partial_credit_options, list(
         partial_credit_response("a", "VALUE_CHANGED", 8),
-        partial_credit_response("b", "VALUE_CHANGED", NULL)
+        partial_credit_response("b", "VALUE_CHANGED", NA)
       ), api, input)
       partial_credit_expect(result, "DERIVE_PENDING", info = paste(method, api, input))
       expect_equal(result$status[result$id == "b"], "CODING_INCOMPLETE")
@@ -227,12 +229,12 @@ test_that("null answers awaiting coding remain pending in both input formats", {
   }
 })
 
-test_that("data-frame response inputs preserve null list-column values", {
+test_that("data-frame response inputs support logical NA as JSON null", {
   scheme <- partial_credit_scheme("SUM_CODE", partial_credit_options)
   for (status in c("INVALID", "VALUE_CHANGED")) {
     responses <- data.frame(id = c("a", "b"),
       status = c("VALUE_CHANGED", status), stringsAsFactors = FALSE)
-    responses$value <- list(8, NULL)
+    responses$value <- list(8, NA)
     for (api in c("single", "array")) {
       result <- if (api == "single") code_responses(scheme, responses) else
         code_responses_array(scheme, list(list(unit_key = "unit", responses = responses)))
@@ -242,6 +244,24 @@ test_that("data-frame response inputs preserve null list-column values", {
         partial_credit_expect(result, "DERIVE_PENDING", info = api)
       }
       expect_true(is.na(result$value[result$id == "b"]), info = api)
+    }
+  }
+})
+
+test_that("native R NULL keeps its pre-update coding behavior", {
+  # Characterize the existing bridge rather than changing its NULL encoding
+  # as part of a dependency update. JSON-null cases are tested separately above.
+  for (method in c("SUM_CODE", "SUM_SCORE", "CONCAT_CODE")) {
+    for (status in c("VALUE_CHANGED", "INVALID")) {
+      expected_status <- if (status == "VALUE_CHANGED") "CODING_ERROR" else "INVALID"
+      for (api in c("single", "array")) {
+        result <- partial_credit_run(method, partial_credit_options, list(
+          partial_credit_response("a", "CODING_COMPLETE", 8, 2, 3),
+          partial_credit_response("b", status, NULL)
+        ), api, "list")
+        partial_credit_expect(result, expected_status, info = paste(method, status, api))
+        expect_equal(result$status[result$id == "b"], expected_status)
+      }
     }
   }
 })

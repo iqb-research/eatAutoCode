@@ -16,13 +16,10 @@
   displayed and empty source responses in `SUM_CODE`, `SUM_SCORE` and
   `CONCAT_CODE`, including source preservation, pending coding and the
   distinction between `0_x` and `0_0`.
-- Preserve R `NULL` values as JSON `null` in list/data-frame response
-  inputs to both coding functions. This makes the new empty-source
-  option behave consistently for list and JSON inputs.
 - Added a vignette documenting the valid-answer and derivation matrices,
   clarified the default behavior covered by the status vignettes, and
-  expanded the update instructions to include baseline tests, the
-  JavaScript build and version metadata.
+  added the JavaScript build and version metadata steps to the existing
+  developer update instructions.
 - Documented the pre-existing upstream `COPY_VALUE` behavior that
   converts numeric `0` and `FALSE` to `null`; this behavior is unchanged
   by the update.
