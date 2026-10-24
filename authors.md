@@ -17,13 +17,13 @@
 ## Citation
 
 Franikowski P, Sachse K (2026). *eatAutoCode: Automatically Code
-Technology Based Assessment (TBA) Data*. R package version 0.5.0.9007,
+Technology Based Assessment (TBA) Data*. R package version 0.5.0.9008,
 <https://iqb-research.github.io/eatAutoCode/>.
 
     @Manual{,
       title = {eatAutoCode: Automatically Code Technology Based Assessment (TBA) Data},
       author = {Philipp Franikowski and Karoline A. Sachse},
       year = {2026},
-      note = {R package version 0.5.0.9007},
+      note = {R package version 0.5.0.9008},
       url = {https://iqb-research.github.io/eatAutoCode/},
     }

@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">eatAutoCode</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><h6 class="dropdown-header" data-toc-skip>Status matrices</h6></li>
+<li><h6 class="dropdown-header" data-toc-skip>Regression matrices</h6></li>
+    <li><a class="dropdown-item" href="../articles/valid-coding-matrices.html">Valid responses and derivations</a></li>
     <li><a class="dropdown-item" href="../articles/status-matrices-derivations.html">All derivation status matrices</a></li>
     <li><a class="dropdown-item" href="../articles/status-matrix-sum-score.html">SUM_SCORE status matrix</a></li>
   </ul>
@@ -67,8 +68,20 @@
     
     
 <p>Diese Seite dokumentiert die erwartete Statusverrechnung fuer alle
-Ableitungsmethoden im aktuellen <code>eatAutoCode</code>-Stand mit
-<code>@iqb/responses</code> 5.2.2.</p>
+Ableitungsmethoden ohne zusaetzliche Partial-Credit-Optionen. Die
+Sollwerte stammen aus <code>@iqb/responses</code> 5.2.2 und werden fuer
+den Versionsvergleich von 5.3.1 auf 5.5.0 unveraendert verwendet.</p>
+<p>Seit 5.4.0 koennen fuer <code>SUM_SCORE</code>, <code>SUM_CODE</code>
+und <code>CONCAT_CODE</code> die Optionen
+<code>TAKE_DISPLAYED_AS_ZERO_IF_PARTIAL</code> und
+<code>TAKE_EMPTY_AS_ZERO_IF_PARTIAL</code> einzeln aktiviert werden.
+Beide sind standardmaessig ausgeschaltet. Die hier gezeigten Matrizen
+beschreiben diesen Standardfall; bei aktivierten Optionen muessen
+zusaetzlich Quellwerte und das Vorhandensein einer regulaer kodierten
+Quelle beruecksichtigt werden.</p>
+<p>Die <a href="valid-coding-matrices.html">Matrizen fuer valide
+Antworten und Ableitungen</a> ergaenzen diese Statuspruefungen um
+konkrete Werte, Codes und Scores.</p>
 <p>Die Matrizen beschreiben das Endergebnis nach Ableitung und nach der
 direkt anschliessenden Regelkodierung einer geschlossen kodierbaren
 Zielvariable. In den zugehoerigen Regressionstests haben die
@@ -247,9 +260,9 @@ SOLVER.</td>
 <div class="section level2">
 <h2 id="gueltige-quellstatus-nach-methode">Gueltige Quellstatus nach Methode<a class="anchor" aria-label="anchor" href="#gueltige-quellstatus-nach-methode"></a>
 </h2>
-<p>Nach den gemeinsamen Prioritaeten zaehlt <code>@iqb/responses</code>
-5.2.2 pro Methode, welche Quellstatus fuer die Ableitung zulaessig
-sind.</p>
+<p>Nach den gemeinsamen Prioritaeten bestimmt die aus 5.2.2 uebernommene
+Sollwertdefinition pro Methode, welche Quellstatus fuer die Ableitung
+zulaessig sind.</p>
 <table class="table">
 <colgroup>
 <col width="11%">

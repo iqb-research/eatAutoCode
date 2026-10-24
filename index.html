@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">eatAutoCode</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,8 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><h6 class="dropdown-header" data-toc-skip>Status matrices</h6></li>
+<li><h6 class="dropdown-header" data-toc-skip>Regression matrices</h6></li>
+    <li><a class="dropdown-item" href="articles/valid-coding-matrices.html">Valid responses and derivations</a></li>
     <li><a class="dropdown-item" href="articles/status-matrices-derivations.html">All derivation status matrices</a></li>
     <li><a class="dropdown-item" href="articles/status-matrix-sum-score.html">SUM_SCORE status matrix</a></li>
   </ul>
@@ -87,6 +88,10 @@
 <p>Second, the auto coder needs to be updated:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">packer</span><span class="fu">::</span><span class="fu">npm_install</span><span class="op">(</span><span class="st">"@iqb/responses"</span><span class="op">)</span></span></code></pre></div>
+<p>Third, rebuild the JavaScript bundle and update its version metadata:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">packer</span><span class="fu">::</span><span class="fu">bundle_prod</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">packer</span><span class="fu">::</span><span class="fu">npm_run</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"run"</span>, <span class="st">"updateVersion"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>That’s it. To be sure that everything still works, please load the package (<code>devtools::load_all(".")</code>) and run all of the tests (<code>devtools::test()</code>) before pulling.</p>
 <!-- ## Example -->
 <!-- This is a basic example which shows you how to solve a common problem: -->

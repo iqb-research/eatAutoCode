@@ -2,8 +2,19 @@
 
 Diese Seite dokumentiert die erwartete Statusverrechnung fuer eine
 abgeleitete Variable mit `sourceType = "SUM_SCORE"` und zwei
-Quellvariablen im aktuellen `eatAutoCode`-Stand mit `@iqb/responses`
-5.2.2.
+Quellvariablen. Die Sollwerte stammen aus `@iqb/responses` 5.2.2 und
+werden fuer den Versionsvergleich von 5.3.1 auf 5.5.0 unveraendert
+verwendet.
+
+Die Matrix gilt bei ausgeschalteten Partial-Credit-Optionen. Die seit
+5.4.0 verfuegbaren Optionen `TAKE_DISPLAYED_AS_ZERO_IF_PARTIAL` und
+`TAKE_EMPTY_AS_ZERO_IF_PARTIAL` sind standardmaessig ausgeschaltet.
+Werden sie aktiviert, haengt das Ergebnis zusaetzlich von den
+Quellwerten und einer regulaer kodierten Quelle ab.
+
+Die [Matrizen fuer valide Antworten und
+Ableitungen](https://iqb-research.github.io/eatAutoCode/articles/valid-coding-matrices.md)
+pruefen ergaenzend, ob auch abgeleitete Werte, Codes und Scores stimmen.
 
 Die Matrix ist als Regressionstest in
 `tests/testthat/test-status_matrix_sum_score.R` abgedeckt. Der Test baut

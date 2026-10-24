@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">eatAutoCode</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><h6 class="dropdown-header" data-toc-skip>Status matrices</h6></li>
+<li><h6 class="dropdown-header" data-toc-skip>Regression matrices</h6></li>
+    <li><a class="dropdown-item" href="../articles/valid-coding-matrices.html">Valid responses and derivations</a></li>
     <li><a class="dropdown-item" href="../articles/status-matrices-derivations.html">All derivation status matrices</a></li>
     <li><a class="dropdown-item" href="../articles/status-matrix-sum-score.html">SUM_SCORE status matrix</a></li>
   </ul>
@@ -68,8 +69,18 @@
     
 <p>Diese Seite dokumentiert die erwartete Statusverrechnung fuer eine
 abgeleitete Variable mit <code>sourceType = "SUM_SCORE"</code> und zwei
-Quellvariablen im aktuellen <code>eatAutoCode</code>-Stand mit
-<code>@iqb/responses</code> 5.2.2.</p>
+Quellvariablen. Die Sollwerte stammen aus <code>@iqb/responses</code>
+5.2.2 und werden fuer den Versionsvergleich von 5.3.1 auf 5.5.0
+unveraendert verwendet.</p>
+<p>Die Matrix gilt bei ausgeschalteten Partial-Credit-Optionen. Die seit
+5.4.0 verfuegbaren Optionen
+<code>TAKE_DISPLAYED_AS_ZERO_IF_PARTIAL</code> und
+<code>TAKE_EMPTY_AS_ZERO_IF_PARTIAL</code> sind standardmaessig
+ausgeschaltet. Werden sie aktiviert, haengt das Ergebnis zusaetzlich von
+den Quellwerten und einer regulaer kodierten Quelle ab.</p>
+<p>Die <a href="valid-coding-matrices.html">Matrizen fuer valide
+Antworten und Ableitungen</a> pruefen ergaenzend, ob auch abgeleitete
+Werte, Codes und Scores stimmen.</p>
 <p>Die Matrix ist als Regressionstest in
 <code>tests/testthat/test-status_matrix_sum_score.R</code> abgedeckt.
 Der Test baut eine vollstaendig geschlossen kodierbare
